@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>EduNova 🧠 MCQ Challenge</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,"Noto Sans Sinhala",sans-serif}
+
+:root{
+ --bg:#f5f7ff;
+ --card:#fff;
+ --text:#182033;
+ --muted:#737c91;
+ --primary:#6958e8;
+ --primary2:#8b5cf6;
+ --soft:#eeeefe;
+ --border:#e5e8f1;
+ --green:#10b981;
+ --red:#ef4444;
+ --orange:#f59e0b;
+}
+
+body.dark{
+ --bg:#0d1120;
+ --card:#171c2d;
+ --text:#f4f5ff;
+ --muted:#9da6ba;
+ --soft:#222844;
+ --border:#2b3145;
+}
+
+body{
+ background:var(--bg);
+ color:var(--text);
+ min-height:100vh;
+ transition:.3s;
+}
+
+header{
+ height:70px;
+ background:var(--card);
+ border-bottom:1px solid var(--border);
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ padding:0 5%;
+ position:sticky;
+ top:0;
+ z-index:10;
+}
+
+.brand{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ font-weight:bold;
+ font-size:19px;
+}
+
+.logo{
+ width:42px;
+ height:42px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ border-radius:13px;
+ background:linear-gradient(135deg,var(--primary),var(--primary2));
+ font-size:21px;
+}
+
+.headerBtns{display:flex;gap:8px}
+
+.icon{
+ width:42px;
+ height:42px;
+ border:1px solid var(--border);
+ background:var(--bg);
+ color:var(--text);
+ border-radius:12px;
+ cursor:pointer;
+ font-size:17px;
+}
+
+main{
+ width:94%;
+ max-width:900px;
+ margin:30px auto 70px;
+}
+
+.hero{
+ text-align:center;
+ margin-bottom:25px;
+}
+
+.hero h1{font-size:30px;margin-bottom:8px}
+.hero p{color:var(--muted)}
+
+.card{
+ background:var(--card);
+ border:1px solid var(--border);
+ border-radius:22px;
+ padding:22px;
+ margin-bottom:18px;
+ box-shadow:0 12px 35px rgba(40,45,80,.07);
+}
+
+h3{margin-bottom:15px}
+
+.subjects{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:10px;
+}
+
+.subject{
+ padding:15px 5px;
+ border:1px solid var(--border);
+ background:var(--bg);
+ color:var(--text);
+ border-radius:14px;
+ cursor:pointer;
+ font-weight:bold;
+ transition:.2s;
+}
+
+.subject.active{
+ background:linear-gradient(135deg,var(--primary),var(--primary2));
+ color:white;
+ border-color:transparent;
+}
+
+.topics{
+ display:flex;
+ flex-wrap:wrap;
+ gap:9px;
+}
+
+.topic{
+ padding:10px 13px;
+ border:1px solid var(--border);
+ background:var(--bg);
+ color:var(--text);
+ border-radius:11px;
+ cursor:pointer;
+}
+
+.topic.active{
+ background:var(--soft);
+ border-color:var(--primary);
+ color:var(--primary);
+ font-weight:bold;
+}
+
+.modes{
+ display:grid;
+ grid-template-columns:1fr 1fr 1fr;
+ gap:10px;
+}
+
+.mode{
+ padding:14px;
+ border:1px solid var(--border);
+ background:var(--bg);
+ color:var(--text);
+ border-radius:13px;
+ cursor:pointer;
+ text-align:left;
+}
+
+.mode.active{
+ border:2px solid var(--primary);
+ background:var(--soft);
+}
+
+.mode b{display:block;margin-bottom:5px}
+.mode small{color:var(--muted)}
+
+.start{
+ width:100%;
+ padding:16px;
+ border:0;
+ border-radius:15px;
+ background:linear-gradient(135deg,var(--primary),var(--primary2));
+ color:white;
+ font-size:16px;
+ font-weight:bold;
+ cursor:pointer;
+ margin-top:17px;
+}
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:10px;
+}
+
+.stat{
+ background:var(--soft);
+ border-radius:15px;
+ padding:15px;
+ text-align:center;
+}
+
+.stat strong{
+ display:block;
+ font-size:22px;
+ color:var(--primary);
+}
+
+.stat span{
+ color:var(--muted);
+ font-size:12px;
+}
+
+.quiz{display:none}
+
+.quizHead{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin-bottom:15px;
+}
+
+.progress{
+ height:8px;
+ background:var(--border);
+ border-radius:20px;
+ overflow:hidden;
+ margin:10px 0 18px;
+}
+
+.progressBar{
+ height:100%;
+ width:0%;
+ background:linear-gradient(90deg,var(--primary),var(--primary2));
+ transition:.3s;
+}
+
+.timer{
+ padding:9px 13px;
+ border-radius:11px;
+ background:var(--soft);
+ color:var(--primary);
+ font-weight:bold;
+}
+
+.questionCard{
+ background:var(--card);
+ border:1px solid var(--border);
+ border-radius:23px;
+ padding:25px;
+}
+
+.badge{
+ display:inline-block;
+ padding:7px 10px;
+ border-radius:9px;
+ background:var(--soft);
+ color:var(--primary);
+ font-size:12px;
+ margin-bottom:14px;
+}
+
+.question{
+ font-size:20px;
+ line-height:1.7;
+ margin-bottom:20px;
+}
+
+.options{
+ display:grid;
+ gap:11px;
+}
+
+.option{
+ text-align:left;
+ padding:15px;
+ border:2px solid var(--border);
+ background:var(--bg);
+ color:var(--text);
+ border-radius:14px;
+ cursor:pointer;
+ font-size:15px;
+}
+
+.option.correct{
+ border-color:var(--green);
+ background:rgba(16,185,129,.12);
+}
+
+.option.wrong{
+ border-color:var(--red);
+ background:rgba(239,68,68,.12);
+}
+
+.option.disabled{cursor:not-allowed}
+
+.explanation{
+ display:none;
+ margin-top:17px;
+ padding:15px;
+ background:var(--soft);
+ border-radius:14px;
+ line-height:1.7;
+}
+
+.next{
+ display:none;
+ width:100%;
+ padding:14px;
+ border:0;
+ border-radius:13px;
+ background:var(--primary);
+ color:white;
+ margin-top:15px;
+ cursor:pointer;
+ font-weight:bold;
+}
+
+.result{
+ display:none;
+ text-align:center;
+}
+
+.bigScore{
+ font-size:48px;
+ color:var(--primary);
+ font-weight:bold;
+ margin:15px;
+}
+
+.resultGrid{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:10px;
+ margin:20px 0;
+}
+
+.resultBox{
+ padding:15px 5px;
+ background:var(--bg);
+ border-radius:14px;
+}
+
+.resultBox strong{
+ display:block;
+ font-size:21px;
+}
+
+.resultBox span{
+ color:var(--muted);
+ font-size:12px;
+}
+
+.level{
+ padding:18px;
+ border-radius:16px;
+ background:var(--soft);
+ margin-bottom:18px;
+}
+
+.level strong{
+ display:block;
+ color:var(--primary);
+ font-size:22px;
+ margin-top:5px;
+}
+
+.again{
+ width:100%;
+ padding:14px;
+ border:0;
+ border-radius:13px;
+ background:linear-gradient(135deg,var(--primary),var(--primary2));
+ color:white;
+ font-weight:bold;
+ cursor:pointer;
+}
+
+.history{
+ margin-top:18px;
+}
+
+.historyItem{
+ display:flex;
+ justify-content:space-between;
+ padding:12px;
+ border-bottom:1px solid var(--border);
+}
+
+.historyItem:last-child{border-bottom:0}
+
+.historyItem small{color:var(--muted)}
+
+@media(max-width:650px){
+ .subjects{grid-template-columns:1fr 1fr}
+ .modes{grid-template-columns:1fr}
+ .resultGrid{grid-template-columns:1fr 1fr}
+ .question{font-size:17px}
+ .questionCard{padding:19px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="brand">
+  <div class="logo">🧠</div>
+  <span>EduNova MCQ</span>
+ </div>
+
+ <div class="headerBtns">
+  <button class="icon" onclick="toggleDark()" id="theme">🌙</button>
+  <button class="icon" onclick="location.href='index.html'">🏠</button>
+ </div>
+</header>
+
+<main>
+
+<!-- START -->
+
+<section id="startScreen">
+
+ <div class="hero">
+  <h1>🧠 MCQ Challenge</h1>
+  <p>දැනුම වැඩි කරගන්න. Practice කරන්න. Level up වෙන්න! 🚀</p>
+ </div>
+
+ <div class="card">
+
+  <h3>📚 විෂය තෝරන්න</h3>
+
+  <div class="subjects">
+
+   <button class="subject active" onclick="setSubject('Maths',this)">
+    🔢 Maths
+   </button>
+
+   <button class="subject" onclick="setSubject('Biology',this)">
+    🧬 Biology
+   </button>
+
+   <button class="subject" onclick="setSubject('Physics',this)">
+    ⚡ Physics
+   </button>
+
+   <button class="subject" onclick="setSubject('Chemistry',this)">
+    🧪 Chemistry
+   </button>
+
+  </div>
+
+ </div>
+
+
+ <div class="card">
+
+  <h3>📖 පාඩම</h3>
+
+  <div class="topics" id="topics"></div>
+
+ </div>
+
+
+ <div class="card">
+
+  <h3>🎮 Challenge Mode</h3>
+
+  <div class="modes">
+
+   <button class="mode active" onclick="setMode('normal',this)">
+    <b>📚 Practice</b>
+    <small>තමන්ගේ වේගයෙන් කරන්න</small>
+   </button>
+
+   <button class="mode" onclick="setMode('random',this)">
+    <b>🎲 Random</b>
+    <small>Random questions</small>
+   </button>
+
+   <button class="mode" onclick="setMode('daily',this)">
+    <b>🔥 Daily Challenge</b>
+    <small>අද challenge එක</small>
+   </button>
+
+  </div>
+
+  <button class="start" onclick="startQuiz()">
+   🚀 Test එක ආරම්භ කරන්න
+  </button>
+
+ </div>
+
+
+ <div class="card">
+
+  <h3>📊 මගේ Progress</h3>
+
+  <div class="stats">
+
+   <div class="stat">
+    <strong id="totalTests">0</strong>
+    <span>Tests</span>
+   </div>
+
+   <div class="stat">
+    <strong id="totalXP">0</strong>
+    <span>XP</span>
+   </div>
+
+   <div class="stat">
+    <strong id="myLevel">Beginner 🌱</strong>
+    <span>Level</span>
+   </div>
+
+  </div>
+
+ </div>
+
+ <div class="card history">
+
+  <h3>📝 Recent Results</h3>
+
+  <div id="historyList">
+   <p style="color:var(--muted)">තව results නැහැ.</p>
+  </div>
+
+ </div>
+
+</section>
+
+
+<!-- QUIZ -->
+
+<section id="quizScreen" class="quiz">
+
+ <div class="quizHead">
+
+  <div>
+   <b id="quizSubject">Maths</b>
+   <div style="color:var(--muted);font-size:13px">
+    ප්‍රශ්නය <span id="number">1</span>/<span id="total">10</span>
+   </div>
+  </div>
+
+  <div class="timer">
+   ⏱️ <span id="time">30</span>s
+  </div>
+
+ </div>
+
+ <div class="progress">
+  <div class="progressBar" id="progressBar"></div>
+ </div>
+
+ <div class="questionCard">
+
+  <div class="badge" id="topicBadge">📖 පාඩම</div>
+
+  <div class="question" id="question"></div>
+
+  <div class="options" id="options"></div>
+
+  <div class="explanation" id="explanation"></div>
+
+  <button class="next" id="next" onclick="nextQuestion()">
+   ඊළඟ ප්‍රශ්නය →
+  </button>
+
+ </div>
+
+</section>
+
+
+<!-- RESULT -->
+
+<section id="resultScreen" class="card result">
+
+ <div style="font-size:60px" id="resultIcon">🏆</div>
+
+ <h2 id="resultTitle">සුපිරි වැඩක්!</h2>
+
+ <p id="resultText" style="color:var(--muted);margin-top:7px"></p>
+
+ <div class="bigScore">
+  <span id="percentage">0</span>%
+ </div>
+
+ <div class="resultGrid">
+
+  <div class="resultBox">
+   <strong id="correct">0</strong>
+   <span>නිවැරදි</span>
+  </div>
+
+  <div class="resultBox">
+   <strong id="wrong">0</strong>
+   <span>වැරදි</span>
+  </div>
+
+  <div class="resultBox">
+   <strong id="xp">0</strong>
+   <span>XP</span>
+  </div>
+
+  <div class="resultBox">
+   <strong id="timeUsed">0s</strong>
+   <span>Time</span>
+  </div>
+
+ </div>
+
+ <div class="level">
+  🧠 ඔයාගේ EduNova Level
+  <strong id="level">Beginner 🌱</strong>
+ </div>
+
+ <button class="again" onclick="backToStart()">
+  🔄 නැවත Test කරන්න
+ </button>
+
+</section>
+
+</main>
+
+
+<script>
+
+/* =====================================
+   MCQ DATABASE
+===================================== */
+
+const DB={
+
+Maths:{
+"සංඛ්‍යා":[
+["2 + 5 × 2 හි අගය කීයද?",["14","12","10","9"],0,"ගුණ කිරීම පළමුව සිදුකරන නිසා 5×2=10. පසුව 2+10=12."],
+["√49 හි අගය කීයද?",["6","7","8","9"],1,"7×7=49 නිසා √49=7."],
+["2³ හි අගය කීයද?",["6","8","9","12"],1,"2×2×2=8."],
+["0.5 + 0.25 = ?",["0.50","0.65","0.75","1.25"],2,"0.50+0.25=0.75."],
+["12 සහ 18 හි විශාලතම පොදු සාධකය කීයද?",["3","6","9","12"],1,"12 සහ 18 දෙකටම බෙදෙන විශාලතම සංඛ්‍යාව 6."],
+["20% of 150 කීයද?",["20","25","30","35"],2,"150×20/100 = 30."]
+],
+
+"වීජ ගණිතය":[
+["2x+4=12 නම් x කීයද?",["2","4","6","8"],1,"2x=8 නිසා x=4."],
+["x²=25 නම් x හි අගයන්?",["5 පමණයි","-5 පමණයි","±5","25"],2,"x²=25 නිසා x=5 හෝ -5."],
+["y=3x+2 හි gradient එක?",["2","3","5","6"],1,"y=mx+c ආකාරයේ m=gradient. එබැවින් 3."],
+["x+7=15 නම් x?",["6","7","8","9"],2,"x=15-7=8."],
+["3a-6=9 නම් a?",["3","4","5","6"],2,"3a=15. එබැවින් a=5."],
+["2(x+3)=14 නම් x?",["3","4","5","6"],0,"x+3=7 නිසා x=4."]
+],
+
+"ත්‍රිකෝණමිතිය":[
+["sin 30° = ?",["0","1/2","√2/2","1"],1,"sin 30°=1/2."],
+["cos 60° = ?",["0","1/2","1","√3"],1,"cos 60°=1/2."],
+["tan 45° = ?",["0","1/2","1","2"],2,"tan 45°=1."],
+["sin 90° = ?",["0","1/2","1","√2"],2,"sin 90°=1."]
+]
+},
+
+Biology:{
+"සෛල ජීව විද්‍යාව":[
+["සෛලයේ powerhouse ලෙස හැඳින්වෙන්නේ?",["රයිබොසෝම","මයිටොකොන්ඩ්‍රියා","න්‍යෂ්ටිය","ගොල්ජි"],1,"මයිටොකොන්ඩ්‍රියා තුළ ATP නිපදවීම සිදුවේ."],
+["ප්‍රෝටීන සංස්ලේෂණයට සම්බන්ධ වන්නේ?",["රයිබොසෝම","ලයිසොසෝම","වැකුයෝල","සෙන්ට්‍රියෝල"],0,"රයිබොසෝම මත ප්‍රෝටීන සංස්ලේෂණය සිදුවේ."],
+["ශාක සෛල බිත්තියේ ප්‍රධාන සංඝටකය?",["කයිටින්","සෙලියුලෝස්","ග්ලයිකොජන්","ලිපිඩ"],1,"ශාක සෛල බිත්තියේ ප්‍රධාන සංඝටකය cellulose වේ."],
+["DNA හි සම්පූර්ණ නාමය?",["Deoxyribonucleic Acid","Ribonucleic Acid","Double Nucleic Acid","Deoxyribose Acid"],0,"DNA = Deoxyribonucleic Acid."],
+["Mitosis මඟින් සාමාන්‍යයෙන් දියණි සෛල කීයක්?",["1","2","3","4"],1,"Mitosis මඟින් දියණි සෛල 2ක් ලැබේ."]
+],
+
+"ප්‍රභාසංස්ලේෂණය":[
+["ප්‍රභාසංස්ලේෂණය ප්‍රධාන වශයෙන් සිදුවන්නේ?",["මයිටොකොන්ඩ්‍රියා","ක්ලෝරෝප්ලාස්ට්","රයිබොසෝම","න්‍යෂ්ටිය"],1,"ප්‍රභාසංස්ලේෂණයට chloroplast සම්බන්ධ වේ."],
+["ප්‍රභාසංස්ලේෂණයට අවශ්‍ය වායුව?",["O₂","CO₂","N₂","H₂"],1,"ශාක CO₂ භාවිතා කරයි."],
+["ශාකවල ආලෝක ශක්තිය අවශෝෂණයට වැදගත් වර්ණකය?",["හීමොග්ලොබින්","ක්ලෝරොෆිල්","කැරොටින් පමණි","මෙලනින්"],1,"Chlorophyll ආලෝක ශක්තිය අවශෝෂණය කරයි."],
+["ප්‍රභාසංස්ලේෂණයේදී සාමාන්‍යයෙන් නිකුත් වන වායුව?",["CO₂","O₂","N₂","H₂"],1,"ජලයේ photolysis මඟින් oxygen නිකුත් වේ."]
+],
+
+"මානව ජීව විද්‍යාව":[
+["රුධිරයේ oxygen ප්‍රවාහනයට ප්‍රධාන වශයෙන් සම්බන්ධ වන්නේ?",["ප්ලාස්මා","හිමොග්ලොබින්","පට්ටිකා","සුදු සෛල"],1,"Hemoglobin oxygen සමඟ බැඳී ප්‍රවාහනය කරයි."],
+["රුධිර කැටි ගැසීමට වැදගත් වන්නේ?",["පට්ටිකා","රතු සෛල","ප්ලාස්මා පමණි","නියුරෝන"],0,"Platelets රුධිර කැටි ගැසීමේදී වැදගත් වේ."],
+["ආහාර ජීර්ණය ආරම්භ වන්නේ?",["ආමාශයේ","මුඛයේ","කුඩා අන්ත්‍රයේ","විශාල අන්ත්‍රයේ"],1,"මුඛයේදී chewing සහ saliva මඟින් ජීර්ණය ආරම්භ වේ."]
+]
+},
+
+Physics:{
+"චලිතය":[
+["වේගයේ SI ඒකකය?",["m","m/s","N","J"],1,"වේගයේ SI ඒකකය m/s."],
+["ත්වරණයේ SI ඒකකය?",["m/s","m/s²","N","J"],1,"ත්වරණය m/s² වේ."],
+["වේගය = ?",["දුර/කාලය","කාලය/දුර","බලය/කාලය","දුර×කාලය"],0,"v=d/t."],
+["Newton දෙවන නියමය?",["F=ma","V=IR","P=VI","E=mc²"],0,"Newton දෙවන නියමය F=ma."]
+],
+
+"බලය සහ ශක්තිය":[
+["බලයේ SI ඒකකය?",["Joule","Newton","Watt","Volt"],1,"Force හි SI ඒකකය Newton."],
+["ශක්තියේ SI ඒකකය?",["Newton","Joule","Watt","Pascal"],1,"Energy හි SI ඒකකය Joule."],
+["Power හි SI ඒකකය?",["Joule","Newton","Watt","Volt"],2,"Power හි SI ඒකකය Watt."],
+["Momentum සඳහා නිවැරදි සූත්‍රය?",["p=mv","p=ma","p=F/t","p=m/v"],0,"Momentum p=mv."]
+],
+
+"විදුලිය":[
+["Ohm නියමය?",["V=IR","P=VI","F=ma","Q=It"],0,"Ohm නියමය V=IR."],
+["විදුලි ධාරාවේ SI ඒකකය?",["Volt","Ohm","Ampere","Watt"],2,"Current හි SI ඒකකය Ampere."],
+["විභව අන්තරයේ SI ඒකකය?",["Ampere","Volt","Ohm","Watt"],1,"Potential difference හි ඒකකය Volt."]
+]
+},
+
+Chemistry:{
+"පරමාණුක ව්‍යුහය":[
+["Atomic number එකෙන් දැක්වෙන්නේ?",["Neutron ගණන","Proton ගණන","Electron+Neutron","Mass number"],1,"Atomic number = proton ගණන."],
+["Electron එකේ ආරෝපණය?",["ධන","ඍණ","ශුන්‍ය","වෙනස්"],1,"Electron negative charge එකක් දරයි."],
+["Carbon හි atomic number?",["4","6","8","12"],1,"Carbon හි proton ගණන 6කි."],
+["Neutron එකේ ආරෝපණය?",["ධන","ඍණ","ශුන්‍ය","2+"],2,"Neutron එක electrically neutral."]
+],
+
+"මෝල සංකල්පය":[
+["Avogadro නියතය ආසන්න වශයෙන්?",["6.02×10²³","6.02×10⁶","6.02×10¹²","6.02×10²"],0,"Avogadro constant ≈ 6.022×10²³ mol⁻¹."],
+["1 mol එකක අංශු ගණන?",["10²³","6.022×10²³","10⁶","1000"],1,"1 mol contains Avogadro number of particles."]
+],
+
+"අම්ල භාෂ්ම":[
+["pH 7 ද්‍රාවණයක් සාමාන්‍යයෙන්?",["ආම්ලික","භාෂ්මික","උදාසීන","අතිශය ආම්ලික"],2,"25°C ආසන්නයේ pH 7 neutral."],
+["HCl සාමාන්‍යයෙන්?",["ආම්ලයක්","භාෂ්මයක්","ලෝහයක්","ලවණයක්"],0,"HCl ජලයේදී acidic solution එකක් සාදයි."],
+["NaOH යනු?",["අම්ලයක්","භාෂ්මයක්","වායුවක්","ලෝහයක්"],1,"NaOH strong base එකකි."]
+]
+}
+
+};
+
+
+/* =====================================
+   VARIABLES
+===================================== */
+
+let subject="Maths";
+let topic="සියලුම පාඩම්";
+let mode="normal";
+
+let questions=[];
+let current=0;
+let correct=0;
+let wrong=0;
+let timer=30;
+let interval;
+let answered=false;
+
+
+/* =====================================
+   TOPICS
+===================================== */
+
+function loadTopics(){
+
+ const box=document.getElementById("topics");
+
+ box.innerHTML="";
+
+ const all=document.createElement("button");
+ all.className="topic active";
+ all.innerText="📚 සියලුම පාඩම්";
+ all.onclick=()=>{
+  topic="සියලුම පාඩම්";
+  document.querySelectorAll(".topic").forEach(x=>x.classList.remove("active"));
+  all.classList.add("active");
+ };
+ box.appendChild(all);
+
+ Object.keys(DB[subject]).forEach(t=>{
+
+  const b=document.createElement("button");
+
+  b.className="topic";
+  b.innerText=t;
+
+  b.onclick=()=>{
+   topic=t;
+   document.querySelectorAll(".topic").forEach(x=>x.classList.remove("active"));
+   b.classList.add("active");
+  };
+
+  box.appendChild(b);
+
+ });
+
+}
+
+
+/* =====================================
+   SUBJECT
+===================================== */
+
+function setSubject(s,btn){
+
+ subject=s;
+
+ document.querySelectorAll(".subject")
+ .forEach(x=>x.classList.remove("active"));
+
+ btn.classList.add("active");
+
+ topic="සියලුම පාඩම්";
+
+ loadTopics();
+
+}
+
+
+/* =====================================
+   MODE
+===================================== */
+
+function setMode(m,btn){
+
+ mode=m;
+
+ document.querySelectorAll(".mode")
+ .forEach(x=>x.classList.remove("active"));
+
+ btn.classList.add("active");
+
+}
+
+
+/* =====================================
+   START
+===================================== */
+
+function startQuiz(){
+
+ let source=[];
+
+ if(topic==="සියලුම පාඩම්"){
+
+  Object.keys(DB[subject]).forEach(t=>{
+   DB[subject][t].forEach(q=>{
+    source.push({
+     data:q,
+     topic:t
+    });
+   });
+  });
+
+ }else{
+
+  DB[subject][topic].forEach(q=>{
+   source.push({
+    data:q,
+    topic:topic
+   });
+  });
+
+ }
+
+
+ if(mode==="random" || mode==="daily"){
+
+  source.sort(()=>Math.random()-.5);
+
+ }
+
+
+ questions=source.slice(0,10);
+
+ if(mode==="daily"){
+
+  const day=new Date().getDate();
+
+  const month=new Date().getMonth();
+
+  const seed=(day+month)%source.length;
+
+  questions=[];
+
+  for(let i=0;i<10;i++){
+
+   questions.push(
+    source[(seed+i)%source.length]
+   );
+
+  }
+
+ }
+
+
+ current=0;
+ correct=0;
+ wrong=0;
+
+ document.getElementById("startScreen").style.display="none";
+ document.getElementById("resultScreen").style.display="none";
+ document.getElementById("quizScreen").style.display="block";
+
+ document.getElementById("quizSubject").innerText=subject;
+
+ document.getElementById("total").innerText=questions.length;
+
+ showQuestion();
+
+}
+
+
+/* =====================================
+   SHOW QUESTION
+===================================== */
+
+function showQuestion(){
+
+ answered=false;
+
+ clearInterval(interval);
+
+ timer=30;
+
+ document.getElementById("time").innerText=timer;
+
+ const item=questions[current];
+
+ const q=item.data;
+
+ document.getElementById("number").innerText=current+1;
+
+ document.getElementById("question").innerText=q[0];
+
+ document.getElementById("topicBadge").innerText="📖 "+item.topic;
+
+ const bar=((current)/questions.length)*100;
+
+ document.getElementById("progressBar").style.width=bar+"%";
+
+ const options=document.getElementById("options");
+
+ options.innerHTML="";
+
+ q[1].forEach((answer,i)=>{
+
+  const b=document.createElement("button");
+
+  b.className="option";
+
+  b.innerText=String.fromCharCode(65+i)+". "+answer;
+
+  b.onclick=()=>checkAnswer(i,b);
+
+  options.appendChild(b);
+
+ });
+
+ document.getElementById("explanation").style.display="none";
+
+ document.getElementById("next").style.display="none";
+
+ startTimer();
+
+}
+
+
+/* =====================================
+   TIMER
+===================================== */
+
+function startTimer(){
+
+ interval=setInterval(()=>{
+
+  timer--;
+
+  document.getElementById("time").innerText=timer;
+
+  if(timer<=0){
+
+   clearInterval(interval);
+
+   if(!answered){
+
+    timeOut();
+
+   }
+
+  }
+
+ },1000);
+
+}
+
+
+/* =====================================
+   ANSWER
+===================================== */
+
+function checkAnswer(index,button){
+
+ if(answered)return;
+
+ answered=true;
+
+ clearInterval(interval);
+
+ const q=questions[current].data;
+
+ const buttons=document.querySelectorAll(".option");
+
+ buttons.forEach(x=>x.classList.add("disabled"));
+
+ if(index===q[2]){
+
+  correct++;
+
+  button.classList.add("correct");
+
+  document.getElementById("explanation").innerHTML=
+  "🎉 <b>නිවැරදියි!</b><br><br>💡 "+q[3];
+
+ }else{
+
+  wrong++;
+
+  button.classList.add("wrong");
+
+  buttons[q[2]].classList.add("correct");
+
+  document.getElementById("explanation").innerHTML=
+  "❌ <b>වැරදියි!</b><br><br>"+
+  "✅ නිවැරදි පිළිතුර: <b>"+
+  q[1][q[2]]+
+  "</b><br><br>💡 "+q[3];
+
+ }
+
+ document.getElementById("explanation").style.display="block";
+
+ document.getElementById("next").style.display="block";
+
+}
+
+
+/* =====================================
+   TIME OUT
+===================================== */
+
+function timeOut(){
+
+ answered=true;
+
+ wrong++;
+
+ const q=questions[current].data;
+
+ const buttons=documen
