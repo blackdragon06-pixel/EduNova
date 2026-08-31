@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduNova 📚✨</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,"Noto Sans Sinhala",sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#eef2ff,#f8faff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    color:#172033;
+}
+
+/* Background circles */
+.circle{
+    position:fixed;
+    border-radius:50%;
+    filter:blur(2px);
+    opacity:.35;
+    z-index:-1;
+}
+
+.c1{
+    width:280px;
+    height:280px;
+    background:#8b5cf6;
+    top:-100px;
+    left:-90px;
+}
+
+.c2{
+    width:330px;
+    height:330px;
+    background:#06b6d4;
+    bottom:-140px;
+    right:-100px;
+}
+
+.c3{
+    width:150px;
+    height:150px;
+    background:#f59e0b;
+    top:30%;
+    right:8%;
+}
+
+/* Main */
+.container{
+    width:94%;
+    max-width:430px;
+    padding:20px;
+}
+
+.logo{
+    text-align:center;
+    margin-bottom:18px;
+    animation:fadeDown .8s ease;
+}
+
+.logo-icon{
+    width:72px;
+    height:72px;
+    margin:auto;
+    border-radius:22px;
+    background:linear-gradient(135deg,#6d5dfc,#8b5cf6);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:36px;
+    box-shadow:0 15px 35px rgba(99,76,230,.25);
+}
+
+.logo h1{
+    margin-top:12px;
+    font-size:30px;
+    background:linear-gradient(90deg,#5b4bdb,#06a6c9);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.logo p{
+    margin-top:5px;
+    color:#697386;
+    font-size:14px;
+}
+
+/* Card */
+.card{
+    background:rgba(255,255,255,.88);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,.8);
+    border-radius:28px;
+    padding:28px 24px;
+    box-shadow:0 25px 70px rgba(30,41,80,.14);
+    animation:fadeUp .8s ease;
+}
+
+.card h2{
+    font-size:23px;
+    margin-bottom:7px;
+}
+
+.subtitle{
+    color:#737b8c;
+    font-size:14px;
+    margin-bottom:25px;
+    line-height:1.6;
+}
+
+.input-box{
+    position:relative;
+    margin-bottom:16px;
+}
+
+.input-box span{
+    position:absolute;
+    left:16px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:20px;
+}
+
+input{
+    width:100%;
+    padding:16px 16px 16px 50px;
+    border:2px solid #edf0f7;
+    outline:none;
+    border-radius:16px;
+    font-size:15px;
+    background:#f9fafc;
+    transition:.25s;
+}
+
+input:focus{
+    border-color:#7665e8;
+    background:white;
+    box-shadow:0 0 0 4px rgba(118,101,232,.10);
+}
+
+button{
+    width:100%;
+    border:0;
+    padding:16px;
+    border-radius:16px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.primary{
+    background:linear-gradient(135deg,#6757e8,#8b5cf6);
+    color:white;
+    box-shadow:0 12px 25px rgba(103,87,232,.25);
+}
+
+.primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 16px 30px rgba(103,87,232,.35);
+}
+
+.primary:active{
+    transform:scale(.98);
+}
+
+/* OTP */
+#otpSection{
+    display:none;
+}
+
+.otp-info{
+    background:#f1f0ff;
+    border:1px solid #ddd9ff;
+    border-radius:15px;
+    padding:12px;
+    margin-bottom:17px;
+    font-size:13px;
+    color:#5147a5;
+}
+
+.otp-display{
+    display:none;
+    margin-top:14px;
+    background:#ecfdf5;
+    border:1px solid #a7f3d0;
+    color:#047857;
+    padding:13px;
+    border-radius:14px;
+    text-align:center;
+    font-size:14px;
+}
+
+.back{
+    margin-top:12px;
+    background:#f1f2f6;
+    color:#555d70;
+}
+
+.resend{
+    text-align:center;
+    margin-top:15px;
+    color:#686f80;
+    font-size:13px;
+}
+
+.resend span{
+    color:#6355d9;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* Footer */
+.footer{
+    text-align:center;
+    margin-top:18px;
+    color:#8a91a1;
+    font-size:12px;
+}
+
+/* Loading */
+.loader{
+    width:19px;
+    height:19px;
+    border:3px solid rgba(255,255,255,.4);
+    border-top-color:white;
+    border-radius:50%;
+    display:inline-block;
+    animation:spin .7s linear infinite;
+    vertical-align:middle;
+    margin-right:7px;
+}
+
+/* Animations */
+@keyframes spin{
+    to{transform:rotate(360deg);}
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeDown{
+    from{
+        opacity:0;
+        transform:translateY(-20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* Mobile */
+@media(max-width:480px){
+    .container{
+        width:96%;
+    }
+
+    .card{
+        padding:25px 19px;
+        border-radius:24px;
+    }
+
+    .logo h1{
+        font-size:27px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="circle c1"></div>
+<div class="circle c2"></div>
+<div class="circle c3"></div>
+
+<div class="container">
+
+    <!-- LOGO -->
+    <div class="logo">
+        <div class="logo-icon">📚</div>
+        <h1>EduNova</h1>
+        <p>Learn Smart • Dream Big • Achieve More ✨</p>
+    </div>
+
+    <!-- LOGIN CARD -->
+    <div class="card">
+
+        <!-- STEP 1 -->
+        <div id="loginSection">
+
+            <h2>ආයුබෝවන්! 👋</h2>
+
+            <p class="subtitle">
+                EduNova වෙත සාදරයෙන් පිළිගනිමු.<br>
+                ඔබගේ Email හෝ Phone Number එක ඇතුළත් කරන්න.
+            </p>
+
+            <div class="input-box">
+                <span>📱</span>
+                <input
+                    type="text"
+                    id="contact"
+                    placeholder="Email / Phone Number"
+                    autocomplete="off">
+            </div>
+
+            <button class="primary" onclick="sendOTP()">
+                OTP ලබාගන්න 🚀
+            </button>
+
+        </div>
+
+        <!-- STEP 2 -->
+        <div id="otpSection">
+
+            <h2>OTP Verification 🔐</h2>
+
+            <p class="subtitle">
+                ඔබ ලබාදුන් Email / Phone Number එක verify
+                කිරීම සඳහා OTP එක ඇතුළත් කරන්න.
+            </p>
+
+            <div class="otp-info">
+                💡 Demo version එකක් නිසා OTP එක පහළින් පෙන්වනු ඇත.
+            </div>
+
+            <div class="input-box">
+                <span>🔢</span>
+                <input
+                    type="number"
+                    id="otpInput"
+                    placeholder="6 digit OTP"
+                    maxlength="6">
+            </div>
+
+            <button class="primary" onclick="verifyOTP()">
+                Verify & Continue ✨
+            </button>
+
+            <div id="otpDisplay" class="otp-display"></div>
+
+            <div class="resend">
+                OTP එක ලැබුණේ නැද්ද?
+                <span onclick="resendOTP()">නැවත ලබාගන්න</span>
+            </div>
+
+            <button class="back" onclick="goBack()">
+                ← ආපසු
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        © 2026 EduNova 📚 • Free Student Learning Platform
+    </div>
+
+</div>
+
+
+<script>
+
+/* ================================
+   EDUNOVA LOGIN SYSTEM
+================================ */
+
+let generatedOTP = "";
+let userContact = "";
+
+
+/* Generate 6 digit OTP */
+function createOTP(){
+
+    return Math.floor(
+        100000 + Math.random() * 900000
+    ).toString();
+
+}
+
+
+/* Send OTP */
+function sendOTP(){
+
+    const contact =
+        document.getElementById("contact").value.trim();
+
+    if(contact === ""){
+
+        alert("කරුණාකර Email හෝ Phone Number එක ඇතුළත් කරන්න. 😊");
+        return;
+
+    }
+
+    if(contact.length < 5){
+
+        alert("කරුණාකර නිවැරදි Email / Phone Number එකක් ඇතුළත් කරන්න.");
+        return;
+
+    }
+
+    userContact = contact;
+
+    generatedOTP = createOTP();
+
+    document.getElementById("loginSection").style.display = "none";
+
+    document.getElementById("otpSection").style.display = "block";
+
+    const display =
+        document.getElementById("otpDisplay");
+
+    display.style.display = "block";
+
+    display.innerHTML =
+        "🔐 Your Demo OTP: <strong>" +
+        generatedOTP +
+        "</strong>";
+
+    document.getElementById("otpInput").focus();
+
+}
+
+
+/* Verify OTP */
+function verifyOTP(){
+
+    const enteredOTP =
+        document.getElementById("otpInput").value.trim();
+
+    if(enteredOTP === ""){
+
+        alert("OTP එක ඇතුළත් කරන්න. 😊");
+        return;
+
+    }
+
+    if(enteredOTP === generatedOTP){
+
+        /*
+          Save basic login information
+          so the next pages can use it.
+        */
+
+        localStorage.setItem(
+            "eduNovaLoggedIn",
+            "true"
+        );
+
+        localStorage.setItem(
+            "eduNovaUser",
+            userContact
+        );
+
+        alert(
+            "🎉 Login සාර්ථකයි!\n\nEduNova වෙත සාදරයෙන් පිළිගනිමු ❤️"
+        );
+
+        /*
+          STEP 2 එකේදී මෙතනට Dashboard එක connect කරමු.
+        */
+
+        showComingSoon();
+
+    }
+    else{
+
+        alert(
+            "❌ OTP එක වැරදියි.\nකරුණාකර නැවත උත්සාහ කරන්න."
+        );
+
+    }
+
+}
+
+
+/* Resend OTP */
+function resendOTP(){
+
+    generatedOTP = createOTP();
+
+    const display =
+        document.getElementById("otpDisplay");
+
+    display.style.display = "block";
+
+    display.innerHTML =
+        "🔐 New Demo OTP: <strong>" +
+        generatedOTP +
+        "</strong>";
+
+}
+
+
+/* Go back */
+function goBack(){
+
+    document.getElementById("otpSection").style.display =
+        "none";
+
+    document.getElementById("loginSection").style.display =
+        "block";
+
+    document.getElementById("otpInput").value = "";
+
+}
+
+
+/* Temporary dashboard message */
+function showComingSoon(){
+
+    alert(
+        "🚀 Great!\n\n" +
+        "දැන් අපේ ඊළඟ STEP එක:\n\n" +
+        "🏠 Smart Dashboard\n" +
+        "📚 Mathematics\n" +
+        "🧬 Biology\n" +
+        "⚡ Physics\n" +
+        "🧪 Chemistry\n" +
+        "🎯 MCQ System\n" +
+        "⏳ A/L Countdown\n" +
+        "👤 Profile\n" +
+        "🌙 Dark Mode\n\n" +
+        "ඊළඟ update එකේ මේවා add කරමු! ❤️🔥"
+    );
+
+}
+
+
+/* Enter key support */
+document
+    .getElementById("contact")
+    .addEventListener("keydown", function(e){
+
+        if(e.key === "Enter"){
+            sendOTP();
+        }
+
+    });
+
+
+document
+    .getElementById("otpInput")
+    .addEventListener("keydown", function(e){
+
+        if(e.key === "Enter"){
+            verifyOTP();
+        }
+
+    });
+
+</script>
+
+</body>
+</html>
