@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#6757e8">
+<title>EduNova 📚 | Smart A/L Study</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+ --bg:#f5f6ff;
+ --card:#fff;
+ --text:#172033;
+ --muted:#737b90;
+ --primary:#6857e8;
+ --primary2:#8b5cf6;
+ --soft:#eeecff;
+ --border:#e4e6f0;
+ --green:#10b981;
+ --red:#ef4444;
+ --yellow:#f59e0b;
+ --shadow:0 15px 45px rgba(40,35,100,.09);
+}
+body.dark{
+ --bg:#0d1120;
+ --card:#171c2c;
+ --text:#f4f5ff;
+ --muted:#9ca5ba;
+ --soft:#242943;
+ --border:#2c3247;
+ --shadow:0 15px 45px rgba(0,0,0,.25);
+}
+body{
+ background:var(--bg);
+ color:var(--text);
+ font-family:Arial,"Noto Sans Sinhala",sans-serif;
+ min-height:100vh;
+ transition:.25s;
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+
+/* LOGIN */
+#loginPage{
+ min-height:100vh;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+ background:
+ radial-gradient(circle at 10% 10%,#dcd8ff 0,transparent 30%),
+ radial-gradient(circle at 90% 90%,#e9ddff 0,transparent 30%),
+ var(--bg);
+}
+.loginBox{
+ width:100%;
+ max-width:430px;
+ background:var(--card);
+ padding:30px;
+ border:1px solid var(--border);
+ border-radius:28px;
+ box-shadow:var(--shadow);
+ text-align:center;
+}
+.loginLogo{
+ width:72px;height:72px;
+ border-radius:23px;
+ margin:auto;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:linear-gradient(135deg,var(--primary),var(--primary2));
+ color:#fff;
+ font-size:34px;
+ box-shadow:0 12px 25px rgba(104,87,232,.3);
+}
+.loginBox h1{margin-top:16px;font-size:29px}
+.loginBox p{color:var(--muted);margin:8px 0 22px}
+.field{
+ width:100%;
+ padding:14px 15px;
+ border:1px solid var(--border);
+ border-radius:13px;
+ outline:none;
+ background:var(--bg);
+ color:var(--text);
+ margin-bottom:11px;
+}
+.field:focus{border-color:var(--primary)}
+.primaryBtn{
+ width:100%;
+ border:0;
+ border-radius:14px;
+ padding:14px;
+ color:#fff;
+ font-weight:bold;
+ background:linear-gradient(135deg,var(--primary),var(--primary2));
+}
+.otpBox{margin-top:15px}
+.otpInfo{
+ padding:12px;
+ border-radius:12px;
+ background:var(--soft);
+ color:var(--primary);
+ font-size:13px;
+ margin-bottom:12px;
+}
+.demoOtp{
+ font-size:23px;
+ font-weight:bold;
+ letter-spacing:5px;
+ color:var(--primary);
+ margin:8px;
+}
+
+/* APP */
+#app{display:none}
+.topbar{
+ height:70px;
+ position:sticky;
+ top:0;
+ z-index:50;
+ background:var(--card);
+ border-bottom:1px solid var(--border);
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 4%;
+}
+.brand{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ font-weight:bold;
+}
+.brandIcon{
+ width:42px;height:42px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ border-radius:13px;
+ background:linear-gradient(135deg,var(--primary),var(--primary2));
+ color:white;
+}
+.topActions{display:flex;gap:8px}
+.iconBtn{
+ width:42px;height:42px;
+ border:1px solid var(--border);
+ background:var(--bg);
+ color:var(--text);
+ border-radius:12px;
+}
+.profileBtn{
+ width:42px;height:42px;
+ border:0;
+ border-radius:50%;
+ background:linear-gradient(135deg,var(--primary),var(--primary2));
+ color:#fff;
+ font-weight:bold;
+}
+
+.layout{
+ display:flex;
+ min-height:calc(100vh - 70px);
+}
+.sidebar{
+ width:235px;
+ background:var(--card);
+ border-right:1px solid var(--border);
+ padding:20px 13px;
+ position:fixed;
+ top:70px;
+ bottom:0;
+ overflow:auto;
+}
+.navBtn{
+ width:100%;
+ padding:12px;
+ margin-bottom:6px;
+ border:0;
+ border-radius:12px;
+ text-align:left;
+ background:transparent;
+ color:var(--muted);
+}
+.navBtn:hover,.navBtn.active{
+ background:var(--soft);
+ color:var(--primary);
+ font-weight:bold;
+}
+.content{
+ margin-left:235px;
+ width:calc(100% - 235px);
+ padding:27px 4%;
+ max-width:1450px;
+}
+.page{display:none}
+.page.active{display:block}
+
+.welcome{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:20px;
+ margin-bottom:22px;
+}
+.welcome h1{font-size:28px}
+.welcome p{color:var(--muted);margin-top:6px}
+.motivation{
+ background:linear-gradient(135deg,var(--primary),var(--primary2));
+ color:#fff;
+ padding:18px 20px;
+ border-radius:18px;
+ margin-bottom:22px;
+}
+.motivation b{display:block;margin-bottom:5px}
+
+.cards{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:13px;
+}
+.statCard{
+ background:var(--card);
+ border:1px solid var(--border);
+ border-radius:18px;
+ padding:18px;
+ box-shadow:var(--shadow);
+}
+.statIcon{font-size:24px}
+.statCard strong{display:block;font-size:25px;margin-top:8px}
+.statCard small{color:var(--muted)}
+
+.sectionTitle{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin:28px 0 13px;
+}
+.sectionTitle h2{font-size:20px}
+.sectionTitle span{color:var(--muted);font-size:13px}
+
+.subjectGrid{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:13px;
+}
+.subjectCard{
+ padding:20px;
+ border-radius:20px;
+ background:var(--card);
+ border:1px solid var(--border);
+ cursor:pointer;
+ transition:.2s;
+}
+.subjectCard:hover{transform:translateY(-3px)}
+.subjectEmoji{font-size:31px}
+.subjectCard h3{margin-top:12px}
+.subjectCard p{color:var(--muted);font-size:13px;margin-top:5px}
+
+.panel{
+ background:var(--card);
+ border:1px solid var(--border);
+ border-radius:20px;
+ padding:20px;
+ box-shadow:var(--shadow);
+ margin-bottom:16px;
+}
+
+.progressTrack{
+ width:100%;
+ height:9px;
+ background:var(--border);
+ border-radius:20px;
+ overflow:hidden;
+ margin-top:10px;
+}
+.progressFill{
+ height:100%;
+ background:linear-gradient(90deg,var(--primary),var(--primary2));
+ border-radius:20px;
+}
+
+.countGrid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:13px;
+}
+.count{
+ text-align:center;
+ padding:20px;
+ background:var(--soft);
+ border-radius:17px;
+}
+.count strong{font-size:27px;display:block;color:var(--primary)}
+.count span{color:var(--muted);font-size:12px}
+
+.mcqTopics{
+ display:flex;
+ flex-wrap:wrap;
+ gap:8px;
+ margin-bottom:18px;
+}
+.topicBtn{
+ padding:10px 13px;
+ border:1px solid var(--border);
+ border-radius:11px;
+ background:var(--bg);
+ color:var(--text);
+}
+.topicBtn.active{
+ background:var(--primary);
+ color:white;
+ border-color:var(--primary);
+}
+.mcqOptions{display:grid;gap:10px}
+.mcqOption{
+ padding:14px;
+ text-align:left;
+ border:2px solid var(--border);
+ background:var(--bg);
+ color:var(--text);
+ border-radius:13px;
+}
+.mcqOption.correct{
+ border-color:var(--green);
+ background:rgba(16,185,129,.12);
+}
+.mcqOption.wrong{
+ border-color:var(--red);
+ background:rgba(239,68,68,.12);
+}
+.question{
+ font-size:19px;
+ line-height:1.7;
+ margin:16px 0;
+}
+.explain{
+ margin-top:15px;
+ padding:15px;
+ background:var(--soft);
+ border-radius:13px;
+ line-height:1.7;
+}
+.quizTop{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+}
+.timer{
+ padding:9px 13px;
+ background:var(--soft);
+ border-radius:11px;
+ color:var(--primary);
+ font-weight:bold;
+}
+.nextBtn{
+ width:100%;
+ margin-top:15px;
+ padding:13px;
+ border:0;
+ border-radius:13px;
+ background:var(--primary);
+ color:#fff;
+ font-weight:bold;
+}
+
+.paperGrid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:13px;
+}
+.paper{
+ padding:18px;
+ border:1px solid var(--border);
+ border-radius:17px;
+ background:var(--card);
+}
+.paper h3{margin-bottom:6px}
+.paper p{color:var(--muted);font-size:13px;line-height:1.6}
+.paper button{
+ margin-top:12px;
+ border:0;
+ padding:10px 13px;
+ border-radius:10px;
+ background:var(--soft);
+ color:var(--primary);
+ font-weight:bold;
+}
+
+.notesGrid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:13px;
+}
+.note{
+ background:var(--card);
+ border:1px solid var(--border);
+ border-radius:18px;
+ padding:20px;
+}
+.note h3{margin-bottom:10px}
+.note p{line-height:1.8;color:var(--muted)}
+.mind{
+ background:var(--soft);
+ padding:16px;
+ border-radius:15px;
+ line-height:2;
+ margin-top:10px;
+}
+
+.profile{
+ display:grid;
+ grid-template-columns:240px 1fr;
+ gap:15px;
+}
+.avatar{
+ width:100px;height:100px;
+ border-radius:50%;
+ background:linear-gradient(135deg,var(--primary),var(--primary2));
+ color:#fff;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:38px;
+ font-weight:bold;
+ margin-bottom:12px;
+}
+.profileSide{padding:20px}
+.profileMain{padding:20px}
+
+.aiBox{
+ min-height:360px;
+ display:flex;
+ flex-direction:column;
+}
+.aiMessages{
+ flex:1;
+ max-height:350px;
+ overflow:auto;
+ padding:5px;
+}
+.msg{
+ max-width:85%;
+ padding:12px 14px;
+ border-radius:15px;
+ margin-bottom:9px;
+ line-height:1.6;
+}
+.bot{
+ background:var(--soft);
+}
+.user{
+ background:var(--primary);
+ color:#fff;
+ margin-left:auto;
+}
+.aiInput{
+ display:flex;
+ gap:8px;
+ margin-top:12px;
+}
+.aiInput input{margin:0}
+.aiInput button{
+ width:55px;
+ border:0;
+ border-radius:13px;
+ background:var(--primary);
+ color:#fff;
+}
+
+.historyRow{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ padding:13px 0;
+ border-bottom:1px solid var(--border);
+}
+.historyRow:last-child{border:0}
+
+.badges{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:12px;
+}
+.badgeCard{
+ padding:18px;
+ background:var(--soft);
+ border-radius:15px;
+}
+.badgeCard.locked{opacity:.45}
+
+.toast{
+ position:fixed;
+ bottom:20px;
+ left:50%;
+ transform:translateX(-50%);
+ padding:13px 18px;
+ background:#171c2c;
+ color:white;
+ border-radius:13px;
+ z-index:100;
+ display:none;
+}
+
+@media(max-width:900px){
+ .sidebar{
+  width:72px;
+  padding:15px 8px;
+ }
+ .navBtn{
+  font-size:0;
+  text-align:center;
+ }
+ .navBtn:first-letter{font-size:19px}
+ .content{
+  margin-left:72px;
+  width:calc(100% - 72px);
+ }
+ .cards{grid-template-columns:1fr 1fr}
+ .subjectGrid{grid-template-columns:1fr 1fr}
+ .paperGrid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+ .topbar{padding:0 13px}
+ .brand span{display:none}
+ .content{padding:20px 12px}
+ .welcome{display:block}
+ .cards,.subjectGrid,.paperGrid,.notesGrid,.countGrid,.badges{
+  grid-template-columns:1fr 1fr;
+ }
+ .profile{grid-template-columns:1fr}
+ .cards .statCard{padding:13px}
+ .statCard strong{font-size:21px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= LOGIN ================= -->
+
+<section id="loginPage">
+
+<div class="loginBox">
+
+ <div class="loginLogo">📚</div>
+
+ <h1>EduNova</h1>
+
+ <p>ඔයාගේ Smart A/L Study Space එක 🚀</p>
+
+ <div id="loginStep">
+
+  <input id="loginContact"
+   class="field"
+   placeholder="Email හෝ Phone Number">
+
+  <button class="primaryBtn" onclick="sendOTP()">
+   🔐 OTP ලබාගන්න
+  </button>
+
+ </div>
+
+ <div id="otpStep" class="otpBox hidden">
+
+  <div class="otpInfo">
+   Demo OTP එක පහළින් පෙන්වනු ඇත.
+  </div>
+
+  <div class="demoOtp" id="demoOtp">------</div>
+
+  <input id="otpInput"
+   class="field"
+   maxlength="6"
+   inputmode="numeric"
+   placeholder="OTP අංක 6 ඇතුළත් කරන්න">
+
+  <button class="primaryBtn" onclick="verifyOTP()">
+   ✅ Login වෙන්න
+  </button>
+
+ </div>
+
+ <p style="font-size:11px;margin-top:18px">
+  EduNova • Free Student Learning Platform
+ </p>
+
+</div>
+
+</section>
+
+
+<!-- ================= APP ================= -->
+
+<div id="app">
+
+<header class="topbar">
+
+ <div class="brand">
+  <div class="brandIcon">🧠</div>
+  <span>EduNova</span>
+ </div>
+
+ <div class="topActions">
+  <button class="iconBtn" onclick="toggleDark()" id="darkBtn">🌙</button>
+  <button class="profileBtn" onclick="showPage('profile')"
+   id="profileTop">S</button>
+ </div>
+
+</header>
+
+
+<div class="layout">
+
+<aside class="sidebar">
+
+ <button class="navBtn active" onclick="showPage('dashboard',this)">
+  🏠 Dashboard
+ </button>
+
+ <button class="navBtn" onclick="showPage('subjects',this)">
+  📚 Subjects
+ </button>
+
+ <button class="navBtn" onclick="showPage('mcq',this)">
+  🧠 MCQ Challenge
+ </button>
+
+ <button class="navBtn" onclick="showPage('papers',this)">
+  📄 Papers
+ </button>
+
+ <button class="navBtn" onclick="showPage('notes',this)">
+  📝 Notes & Mind Maps
+ </button>
+
+ <button class="navBtn" onclick="showPage('countdown',this)">
+  ⏳ A/L Countdown
+ </button>
+
+ <button class="navBtn" onclick="showPage('ai',this)">
+  🤖 Sinhala AI
+ </button>
+
+ <button class="navBtn" onclick="showPage('profile',this)">
+  👤 Profile
+ </button>
+
+</aside>
+
+
+<main class="content">
+
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="page active">
+
+ <div class="welcome">
+  <div>
+   <h1>ආයුබෝවන්, <span id="dashName">Student</span>! 👋</h1>
+   <p>අදත් පොඩි step එකක් ගමු. ඔයාට පුළුවන්! 💪</p>
+  </div>
+ </div>
+
+ <div class="motivation">
+  <b>💜 අද Motivation</b>
+  <span id="motivationText"></span>
+ </div>
+
+ <div class="cards">
+
+  <div class="statCard">
+   <div class="statIcon">⭐</div>
+   <strong id="dashXP">0</strong>
+   <small>Total XP</small>
+  </div>
+
+  <div class="statCard">
+   <div class="statIcon">🏆</div>
+   <strong id="dashLevel">Beginner</strong>
+   <small>Current Level</small>
+  </div>
+
+  <div class="statCard">
+   <div class="statIcon">🧠</div>
+   <strong id="dashTests">0</strong>
+   <small>MCQ Tests</small>
+  </div>
+
+  <div class="statCard">
+   <div class="statIcon">🔥</div>
+   <strong id="dashStreak">1</strong>
+   <small>Study Streak</small>
+  </div>
+
+ </div>
+
+
+ <div class="sectionTitle">
+  <h2>📚 Quick Study</h2>
+  <span>විෂයක් තෝරන්න</span>
+ </div>
+
+ <div class="subjectGrid">
+
+  <div class="subjectCard" onclick="openSubject('Maths')">
+   <div class="subjectEmoji">🔢</div>
+   <h3>Mathematics</h3>
+   <p>Pure & Applied Maths</p>
+  </div>
+
+  <div class="subjectCard" onclick="openSubject('Biology')">
+   <div class="subjectEmoji">🧬</div>
+   <h3>Biology</h3>
+   <p>Living world 🌱</p>
+  </div>
+
+  <div class="subjectCard" onclick="openSubject('Physics')">
+   <div class="subjectEmoji">⚡</div>
+   <h3>Physics</h3>
+   <p>Energy & Universe</p>
+  </div>
+
+  <div class="subjectCard" onclick="openSubject('Chemistry')">
+   <div class="subjectEmoji">🧪</div>
+   <h3>Chemistry</h3>
+   <p>Matter & reactions</p>
+  </div>
+
+ </div>
+
+
+ <div class="sectionTitle">
+  <h2>🎯 Overall Progress</h2>
+ </div>
+
+ <div class="panel">
+
+  <b>EduNova Learning Progress</b>
+
+  <div class="progressTrack">
+   <div class="progressFill" id="overallProgress"></div>
+  </div>
+
+  <p style="color:var(--muted);margin-top:8px;font-size:13px"
+   id="progressText">
+   0% completed
+  </p>
+
+ </div>
+
+
+ <div class="sectionTitle">
+  <h2>🏅 Achievements</h2>
+ </div>
+
+ <div class="badges" id="dashboardBadges"></div>
+
+</section>
+
+
+<!-- SUBJECTS -->
+
+<section id="subjects" class="page">
+
+ <div class="welcome">
+  <div>
+   <h1>📚 Subjects</h1>
+   <p>ඔයා අද study කරන්න යන්නේ මොන subject එකද?</p>
+  </div>
+ </div>
+
+ <div class="subjectGrid">
+
+  <div class="subjectCard" onclick="startSubjectMCQ('Maths')">
+   <div class="subjectEmoji">🔢</div>
+   <h3>Mathematics</h3>
+   <p>Algebra • Trigonometry • Numbers</p>
+  </div>
+
+  <div class="subjectCard" onclick="startSubjectMCQ('Biology')">
+   <div class="subjectEmoji">🧬</div>
+   <h3>Biology</h3>
+   <p>Cells • Photosynthesis • Human Biology</p>
+  </div>
+
+  <div class="subjectCard" onclick="startSubjectMCQ('Physics')">
+   <div class="subjectEmoji">⚡</div>
+   <h3>Physics</h3>
+   <p>Motion • Force • Electricity</p>
+  </div>
+
+  <div class="subjectCard" onclick="startSubjectMCQ('Chemistry')">
+   <div class="subjectEmoji">🧪</div>
+   <h3>Chemistry</h3>
+   <p>Atoms • Mole • Acids & Bases</p>
+  </div>
+
+ </div>
+
+</section>
+
+
+<!-- MCQ -->
+
+<section id="mcq" class="page">
+
+ <div class="welcome">
+  <div>
+   <h1>🧠 MCQ Challenge</h1>
+   <p>ප්‍රශ්න කරන්න → score ගන්න → XP earn කරන්න → Level up වෙන්න!</p>
+  </div>
+ </div>
+
+ <div id="mcqStart">
+
+  <div class="panel">
+
+   <h3>📚 Subject</h3>
+
+   <div class="mcqTopics" id="subjectButtons"></div>
+
+   <h3>📖 Topic</h3>
+
+   <div class="mcqTopics" id="topicButtons"></div>
+
+   <button class="primaryBtn" onclick="beginQuiz()">
+    🚀 Challenge එක ආරම්භ කරන්න
+   </button>
+
+  </div>
+
+ </div>
+
+
+ <div id="quizBox" class="panel hidden">
+
+  <div class="quizTop">
+
+   <div>
+    <b id="quizTitle">Maths</b>
+    <small style="display:block;color:var(--muted)">
+     Question <span id="qNo">1</span>/<span id="qTotal">10</span>
+    </small>
+   </div>
+
+   <div class="timer">
+    ⏱️ <span id="timer">30</span>s
+   </div>
+
+  </div>
+
+  <div class="progressTrack">
+   <div class="progressFill" id="quizProgress"></div>
+  </div>
+
+  <div class="question" id="quizQuestion"></div>
+
+  <div class="mcqOptions" id="quizOptions"></div>
+
+  <div class="explain hidden" id="quizExplain"></div>
+
+  <button class="nextBtn hidden" id="nextBtn" onclick="nextQuestion()">
+   ඊළඟ ප්‍රශ්නය →
+  </button>
+
+ </div>
+
+
+ <div id="quizResult" class="panel hidden" style="text-align:center">
+
+  <div style="font-size:55px" id="resultEmoji">🏆</div>
+
+  <h2 id="resultTitle">සුපිරි!</h2>
+
+  <p id="resultMessage" style="color:var(--muted);margin:8px"></p>
+
+  <div class="cards" style="margin-top:18px">
+
+   <div class="statCard">
+    <strong id="resultPercent">0%</strong>
+    <small>Score</small>
+   </div>
+
+   <div class="statCard">
+    <strong id="resultCorrect">0</strong>
+    <small>Correct</small>
+   </div>
+
+   <div class="statCard">
+    <strong id="resultWrong">0</strong>
+    <small>Wrong</small>
+   </div>
+
+   <div class="statCard">
+    <strong id="resultXP">0</strong>
+    <small>XP Earned</small>
+   </div>
+
+  </div>
+
+  <button class="primaryBtn"
+   style="margin-top:18px"
+   onclick="resetQuiz()">
+   🔄 නැවත MCQ කරන්න
+  </button>
+
+ </div>
+
+</section>
+
+
+<!-- PAPERS -->
+
+<section id="papers" class="page">
+
+ <div class="welcome">
+  <div>
+   <h1>📄 Papers Library</h1>
+   <p>Past Papers, Model Papers සහ School Papers එක තැනක.</p>
+  </div>
+ </div>
+
+ <div class="panel">
+  <p style="color:var(--muted);line-height:1.7">
+   මෙහි ඔයාගේම PDF files පසුව add කරන්න පුළුවන්.
+   Download buttons demo links ලෙස දැනට තියෙනවා.
+  </p>
+ </div>
+
+ <div class="paperGrid" id="paperGrid"></div>
+
+</section>
+
+
+<!-- NOTES -->
+
+<section id="notes" class="page">
+
+ <div class="welcome">
+  <div>
+   <h1>📝 Notes & Mind Maps</h1>
+   <p>පාඩම් ඉක්මනින් revise කරන්න.</p>
+  </div>
+ </div>
+
+ <div class="notesGrid">
+
+  <div class="note">
+   <h3>🔢 Maths — Algebra</h3>
+   <p>
+    සමීකරණ → Variables → Constants → Factorisation
+   </p>
+   <div class="mind">
+    🧠 <b>Mind Map</b><br>
+    Algebra<br>
+    ↳ Linear equations<br>
+    ↳ Quadratic equations<br>
+    ↳ Functions<br>
+    ↳ Graphs
+   </div>
+  </div>
+
+  <div class="note">
+   <h3>🧬 Biology — Cell</h3>
+   <p>
+    සෛලය ජීවයේ මූලික ව්‍යුහාත්මක හා ක්‍රියාකාරී ඒකකයයි.
+   </p>
+   <div class="mind">
+    🧠 <b>Mind Map</b><br>
+    Cell<br>
+    ↳ Nucleus<br>
+    ↳ Mitochondria<br>
+    ↳ Ribosome<br>
+    ↳ Cell membrane
+   </div>
+  </div>
+
+  <div class="note">
+   <h3>⚡ Physics — Motion</h3>
+   <p>
+    චලිතය විස්තර කිරීමට distance, displacement, velocity සහ acceleration භාවිතා කරයි.
+   </p>
+   <div class="mind">
+    🧠 <b>Mind Map</b><br>
+    Motion<br>
+    ↳ Distance<br>
+    ↳ Velocity<br>
+    ↳ Acceleration<br>
+    ↳ Equations
+   </div>
+  </div>
+
+  <div class="note">
+   <h3>🧪 Chemistry — Atomic Structure</h3>
+   <p>
+    Atom එක proton, neutron සහ electron වලින් සමන්විත වේ.
+   </p>
+   <div class="mind">
+    🧠 <b>Mind Map</b><br>
+    Atom<br>
+    ↳ Proton<br>
+    ↳ Neutron<br>
+    ↳ Electron<br>
+    ↳ Electron shells
+   </div>
+  </div>
+
+ </div>
+
+</section>
+
+
+<!-- COUNTDOWN -->
+
+<section id="countdown" class="page">
+
+ <div class="welcome">
+  <div>
+   <h1>⏳ A/L Countdown</h1>
+   <p>ඔයාගේ target year එක තෝරගෙන අදින් ඉතිරි කාලය බලන්න.</p>
+  </div>
+ </div>
+
+ <div class="panel">
+
+  <div class="mcqTopics">
+   <button class="topicBtn active" onclick="setYear(2027,this)">2027</button>
+   <button class="topicBtn" onclick="setYear(2028,this)">2028</button>
+   <button class="topicBtn" onclick="setYear(2029,this)">2029</button>
+  </div>
+
+  <h2 id="targetYear" style="text-align:center;margin:12px">
+   A/L 2027
+  </h2>
+
+  <div class="countGrid">
+
+   <div class="count">
+    <strong id="days">0</strong>
+    <span>DAYS</span>
+   </div>
+
+   <div class="count">
+    <strong id="hours">0</strong>
+    <span>HOURS</span>
+   </div>
+
+   <div class="count">
+    <strong id="minutes">0</strong>
+    <span>MINUTES</span>
+   </div>
+
+  </div>
+
+ </div>
+
+ <div class="panel" style="text-align:center">
+  <h3>🎯 Remember</h3>
+  <p style="color:var(--m
