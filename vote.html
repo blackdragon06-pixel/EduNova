@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EduNova 📚 | Smart A/L Learning</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,"Noto Sans Sinhala",sans-serif;
+ background:#f5f6ff;
+ color:#182033;
+}
+body.dark{background:#0d1120;color:#fff}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+
+header{
+ position:sticky;
+ top:0;
+ z-index:10;
+ height:65px;
+ background:white;
+ border-bottom:1px solid #ddd;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 20px;
+}
+.dark header{background:#171c2c;border-color:#30364c}
+
+.logo{
+ font-weight:bold;
+ font-size:21px;
+ color:#6957e8;
+}
+.actions{display:flex;gap:8px}
+.icon{
+ width:40px;height:40px;
+ border:0;border-radius:12px;
+ background:#eee;
+}
+
+.login{
+ min-height:100vh;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ padding:20px;
+}
+.loginCard{
+ max-width:420px;
+ width:100%;
+ background:white;
+ padding:30px;
+ border-radius:25px;
+ box-shadow:0 20px 60px #0001;
+ text-align:center;
+}
+.dark .loginCard{background:#171c2c}
+.logoCircle{
+ width:70px;height:70px;
+ margin:auto;
+ border-radius:22px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:32px;
+ color:#fff;
+ background:linear-gradient(135deg,#6957e8,#9b5de5);
+}
+.input{
+ width:100%;
+ padding:14px;
+ margin:7px 0;
+ border:1px solid #ddd;
+ border-radius:12px;
+ background:#f7f7fb;
+ outline:none;
+}
+.dark .input{background:#0f1424;color:white;border-color:#343b50}
+
+.primary{
+ width:100%;
+ border:0;
+ padding:14px;
+ border-radius:12px;
+ color:white;
+ font-weight:bold;
+ background:linear-gradient(135deg,#6957e8,#9b5de5);
+}
+
+.app{display:none}
+.layout{display:flex}
+.sidebar{
+ position:fixed;
+ top:65px;
+ bottom:0;
+ width:225px;
+ background:white;
+ border-right:1px solid #ddd;
+ padding:15px 10px;
+}
+.dark .sidebar{background:#171c2c;border-color:#30364c}
+.nav{
+ width:100%;
+ border:0;
+ background:none;
+ text-align:left;
+ padding:12px;
+ border-radius:11px;
+ margin:3px 0;
+ color:#737b90;
+}
+.nav:hover,.nav.active{
+ background:#eeecff;
+ color:#6957e8;
+}
+.content{
+ margin-left:225px;
+ padding:25px;
+ width:100%;
+ max-width:1400px;
+}
+.page{display:none}
+.page.active{display:block}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:14px;
+}
+.card{
+ background:white;
+ padding:20px;
+ border-radius:18px;
+ border:1px solid #e2e4ed;
+ box-shadow:0 10px 30px #00000009;
+}
+.dark .card{
+ background:#171c2c;
+ border-color:#30364c;
+}
+.stat{
+ font-size:27px;
+ font-weight:bold;
+ margin-top:8px;
+}
+.muted{color:#7b8295}
+
+.subject{
+ cursor:pointer;
+ transition:.2s;
+}
+.subject:hover{transform:translateY(-3px)}
+
+.section{
+ margin:25px 0 12px;
+ display:flex;
+ justify-content:space-between;
+}
+
+.progress{
+ height:9px;
+ background:#ddd;
+ border-radius:20px;
+ overflow:hidden;
+}
+.fill{
+ height:100%;
+ background:linear-gradient(90deg,#6957e8,#9b5de5);
+}
+
+.quizOption{
+ width:100%;
+ text-align:left;
+ padding:14px;
+ margin:6px 0;
+ border:2px solid #ddd;
+ border-radius:12px;
+ background:#fafafa;
+}
+.dark .quizOption{
+ background:#101526;
+ color:white;
+ border-color:#353b50;
+}
+.correct{border-color:#10b981!important;background:#10b98118!important}
+.wrong{border-color:#ef4444!important;background:#ef444418!important}
+
+.badges{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:12px;
+}
+
+.paperGrid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:13px;
+}
+
+.paper button{
+ width:100%;
+ border:0;
+ padding:11px;
+ border-radius:10px;
+ background:#eeecff;
+ color:#6957e8;
+}
+
+.aiMessages{
+ height:350px;
+ overflow:auto;
+ padding:10px;
+}
+.msg{
+ padding:12px;
+ border-radius:14px;
+ margin:8px 0;
+ max-width:85%;
+}
+.bot{background:#eeecff}
+.user{
+ background:#6957e8;
+ color:white;
+ margin-left:auto;
+}
+.aiRow{display:flex;gap:8px}
+.aiRow .input{margin:0}
+.aiRow button{width:55px}
+
+.toast{
+ position:fixed;
+ bottom:20px;
+ left:50%;
+ transform:translateX(-50%);
+ background:#171c2c;
+ color:white;
+ padding:12px 18px;
+ border-radius:12px;
+ display:none;
+ z-index:100;
+}
+
+@media(max-width:850px){
+ .sidebar{width:65px}
+ .nav{font-size:0;text-align:center}
+ .content{margin-left:65px}
+ .grid{grid-template-columns:1fr 1fr}
+ .paperGrid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:550px){
+ .content{padding:15px}
+ .grid,.paperGrid,.badges{grid-template-columns:1fr 1fr}
+ header{padding:0 12px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div id="loginPage" class="login">
+
+<div class="loginCard">
+
+<div class="logoCircle">📚</div>
+
+<h1>EduNova</h1>
+
+<p class="muted">Smart A/L Learning Space 🚀</p>
+
+<div id="loginForm">
+
+<input id="contact"
+ class="input"
+ placeholder="Email හෝ Phone Number">
+
+<button class="primary" onclick="requestLogin()">
+🔐 Login / OTP
+</button>
+
+</div>
+
+<div id="otpForm" class="hidden">
+
+<p class="muted">Demo OTP එක:</p>
+
+<h2 id="otpDisplay">------</h2>
+
+<input id="otp"
+ class="input"
+ maxlength="6"
+ placeholder="OTP අංකය">
+
+<button class="primary" onclick="verifyLogin()">
+✅ Verify
+</button>
+
+</div>
+
+<p class="muted" style="font-size:11px;margin-top:20px">
+Free Student Platform
+</p>
+
+</div>
+</div>
+
+
+<!-- APP -->
+
+<div id="app" class="app">
+
+<header>
+
+<div class="logo">🧠 EduNova</div>
+
+<div class="actions">
+
+<button class="icon" onclick="toggleDark()">🌙</button>
+
+<button class="icon"
+ onclick="showPage('profile')"
+ id="profileIcon">S</button>
+
+</div>
+
+</header>
+
+
+<div class="layout">
+
+<aside class="sidebar">
+
+<button class="nav active"
+ onclick="showPage('dashboard',this)">
+🏠 Dashboard
+</button>
+
+<button class="nav"
+ onclick="showPage('subjects',this)">
+📚 Subjects
+</button>
+
+<button class="nav"
+ onclick="showPage('mcq',this)">
+🧠 MCQ
+</button>
+
+<button class="nav"
+ onclick="showPage('papers',this)">
+📄 Papers
+</button>
+
+<button class="nav"
+ onclick="showPage('notes',this)">
+📝 Notes
+</button>
+
+<button class="nav"
+ onclick="showPage('countdown',this)">
+⏳ Countdown
+</button>
+
+<button class="nav"
+ onclick="showPage('ai',this)">
+🤖 Sinhala AI
+</button>
+
+<button class="nav"
+ onclick="showPage('admin',this)">
+👨‍💼 Admin
+</button>
+
+<button class="nav"
+ onclick="showPage('profile',this)">
+👤 Profile
+</button>
+
+</aside>
+
+
+<main class="content">
+
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="page active">
+
+<h1>ආයුබෝවන් <span id="name">Student</span>! 👋</h1>
+
+<p class="muted">
+අදත් පොඩි step එකක් ගමු. ඔයාට පුළුවන්! 💜
+</p>
+
+<div class="card" style="margin-top:20px">
+<b>💪 අද Motivation</b>
+<p id="motivation"></p>
+</div>
+
+<div class="grid" style="margin-top:20px">
+
+<div class="card">
+<div>⭐</div>
+<div class="stat" id="xp">0</div>
+<small>XP</small>
+</div>
+
+<div class="card">
+<div>🏆</div>
+<div class="stat" id="level">Beginner</div>
+<small>Level</small>
+</div>
+
+<div class="card">
+<div>🧠</div>
+<div class="stat" id="tests">0</div>
+<small>Tests</small>
+</div>
+
+<div class="card">
+<div>🔥</div>
+<div class="stat">1</div>
+<small>Streak</small>
+</div>
+
+</div>
+
+
+<div class="section">
+<h2>📚 Subjects</h2>
+</div>
+
+<div class="grid">
+
+<div class="card subject" onclick="chooseSubject('Maths')">
+<h2>🔢</h2>
+<h3>Mathematics</h3>
+<p class="muted">Pure / Applied</p>
+</div>
+
+<div class="card subject" onclick="chooseSubject('Biology')">
+<h2>🧬</h2>
+<h3>Biology</h3>
+<p class="muted">Life Science</p>
+</div>
+
+<div class="card subject" onclick="chooseSubject('Physics')">
+<h2>⚡</h2>
+<h3>Physics</h3>
+<p class="muted">Motion / Energy</p>
+</div>
+
+<div class="card subject" onclick="chooseSubject('Chemistry')">
+<h2>🧪</h2>
+<h3>Chemistry</h3>
+<p class="muted">Atoms / Reactions</p>
+</div>
+
+</div>
+
+
+<div class="section">
+<h2>📊 Progress</h2>
+</div>
+
+<div class="card">
+
+<div class="progress">
+<div class="fill" id="progress"></div>
+</div>
+
+<p class="muted" id="progressText">0%</p>
+
+</div>
+
+</section>
+
+
+<!-- SUBJECTS -->
+
+<section id="subjects" class="page">
+
+<h1>📚 Subjects</h1>
+
+<p class="muted">
+විෂයක් තෝරලා MCQ challenge එක පටන්ගන්න.
+</p>
+
+<div class="grid" style="margin-top:20px">
+
+<div class="card subject" onclick="chooseSubject('Maths')">
+<h2>🔢 Mathematics</h2>
+<p>Algebra • Trigonometry • Numbers</p>
+</div>
+
+<div class="card subject" onclick="chooseSubject('Biology')">
+<h2>🧬 Biology</h2>
+<p>Cells • Photosynthesis • Human Biology</p>
+</div>
+
+<div class="card subject" onclick="chooseSubject('Physics')">
+<h2>⚡ Physics</h2>
+<p>Motion • Force • Electricity</p>
+</div>
+
+<div class="card subject" onclick="chooseSubject('Chemistry')">
+<h2>🧪 Chemistry</h2>
+<p>Atoms • Mole • Acids</p>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- MCQ -->
+
+<section id="mcq" class="page">
+
+<h1>🧠 MCQ Challenge</h1>
+
+<p class="muted">
+Questions කරන්න → Score ගන්න → XP earn කරන්න.
+</p>
+
+<div id="quizSetup" class="card" style="margin-top:20px">
+
+<h3>Subject</h3>
+
+<div id="subjectsSelect"></div>
+
+<h3 style="margin-top:20px">Topic</h3>
+
+<div id="topicsSelect"></div>
+
+<button class="primary"
+ style="margin-top:20px"
+ onclick="startQuiz()">
+🚀 Start Challenge
+</button>
+
+</div>
+
+
+<div id="quiz" class="card hidden" style="margin-top:20px">
+
+<div style="display:flex;justify-content:space-between">
+<b id="quizTitle"></b>
+<b>⏱️ <span id="time">30</span></b>
+</div>
+
+<div class="progress" style="margin-top:12px">
+<div class="fill" id="quizProgress"></div>
+</div>
+
+<h3 id="question"></h3>
+
+<div id="options"></div>
+
+<div id="explanation"
+ class="card hidden"
+ style="background:#eeecff">
+</div>
+
+<button id="next"
+ class="primary hidden"
+ onclick="nextQuestion()">
+ඊළඟ →
+</button>
+
+</div>
+
+
+<div id="result" class="card hidden"
+ style="margin-top:20px;text-align:center">
+
+<div style="font-size:50px">🏆</div>
+
+<h2>Challenge Complete!</h2>
+
+<h1 id="score"></h1>
+
+<p id="resultText"></p>
+
+<button class="primary" onclick="resetQuiz()">
+🔄 Again
+</button>
+
+</div>
+
+</section>
+
+
+<!-- PAPERS -->
+
+<section id="papers" class="page">
+
+<h1>📄 Papers Library</h1>
+
+<p class="muted">
+Past Papers • Model Papers • School Papers
+</p>
+
+<div class="paperGrid" id="papersGrid"
+ style="margin-top:20px"></div>
+
+</section>
+
+
+<!-- NOTES -->
+
+<section id="notes" class="page">
+
+<h1>📝 Notes & Mind Maps</h1>
+
+<div class="grid" style="margin-top:20px">
+
+<div class="card">
+<h3>🔢 Maths — Algebra</h3>
+<p>
+වීජ ගණිතයේදී variables, constants,
+equations සහ functions භාවිතා කරයි.
+</p>
+
+<div class="card">
+🧠 Algebra<br>
+↳ Linear equations<br>
+↳ Quadratic equations<br>
+↳ Functions<br>
+↳ Graphs
+</div>
+</div>
+
+<div class="card">
+<h3>🧬 Biology — Cell</h3>
+<p>
+සෛලය ජීවයේ මූලික ව්‍යුහාත්මක හා
+ක්‍රියාකාරී ඒකකයයි.
+</p>
+
+<div class="card">
+🧠 Cell<br>
+↳ Nucleus<br>
+↳ Mitochondria<br>
+↳ Ribosome<br>
+↳ Cell membrane
+</div>
+</div>
+
+<div class="card">
+<h3>⚡ Physics — Motion</h3>
+<p>
+Distance, displacement, velocity
+සහ acceleration මගින් චලිතය විස්තර කරයි.
+</p>
+
+<div class="card">
+🧠 Motion<br>
+↳ Distance<br>
+↳ Velocity<br>
+↳ Acceleration<br>
+↳ Equations
+</div>
+</div>
+
+<div class="card">
+<h3>🧪 Chemistry — Atom</h3>
+<p>
+Atom එක proton, neutron සහ
+electron වලින් සමන්විත වේ.
+</p>
+
+<div class="card">
+🧠 Atom<br>
+↳ Proton<br>
+↳ Neutron<br>
+↳ Electron<br>
+↳ Shells
+</div>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- COUNTDOWN -->
+
+<section id="countdown" class="page">
+
+<h1>⏳ A/L Countdown</h1>
+
+<div class="card" style="margin-top:20px">
+
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+
+<button class="primary" onclick="setYear(2027)">
+2027
+</button>
+
+<button class="primary" onclick="setYear(2028)">
+2028
+</button>
+
+<button class="primary" onclick="setYear(2029)">
+2029
+</button>
+
+</div>
+
+<h2 style="text-align:center"
+ id="yearTitle">
+A/L 2027
+</h2>
+
+<div class="grid">
+
+<div class="card" style="text-align:center">
+<h1 id="days">0</h1>
+<small>DAYS</small>
+</div>
+
+<div class="card" style="text-align:center">
+<h1 id="hours">0</h1>
+<small>HOURS</small>
+</div>
+
+<div class="card" style="text-align:center">
+<h1 id="minutes">0</h1>
+<small>MINUTES</small>
+</div>
+
+<div class="card" style="text-align:center">
+<h1 id="seconds">0</h1>
+<small>SECONDS</small>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- AI -->
+
+<section id="ai" class="page">
+
+<h1>🤖 Sinhala Study AI</h1>
+
+<p class="muted">
+Study questions අහන්න.
+</p>
+
+<div class="card" style="margin-top:20px">
+
+<div id="messages" class="aiMessages">
+
+<div class="msg bot">
+👋 ආයුබෝවන්! Maths, Biology,
+Physics හෝ Chemistry ගැන ප්‍රශ්නයක් අහන්න.
+</div>
+
+</div>
+
+<div class="aiRow">
+
+<input id="aiInput"
+ class="input"
+ placeholder="ප්‍රශ්නය type කරන්න...">
+
+<button class="primary"
+ onclick="askAI()">➤</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ADMIN -->
+
+<section id="admin" class="page">
+
+<h1>👨‍💼 Admin Panel</h1>
+
+<div class="card" style="margin-top:20px">
+
+<h3>⚙️ EduNova Content Manager</h3>
+
+<p class="muted">
+මෙය Firebase connect කළ පසු real admin
+dashboard එකක් බවට upgrade කළ හැක.
+</p>
+
+<hr>
+
+<h3>➕ Add MCQ</h3>
+
+<input id="adminQuestion"
+ class="input"
+ placeholder="ප්‍රශ්නය">
+
+<input id="adminA"
+ class="input"
+ placeholder="A">
+
+<input id="adminB"
+ class="input"
+ placeholder="B">
+
+<input id="adminC"
+ class="input"
+ placeholder="C">
+
+<input id="adminD"
+ class="input"
+ placeholder="D">
+
+<button class="primary"
+ onclick="addLocalMCQ()">
+💾 Save MCQ
+</button>
+
+<p id="adminStatus"></p>
+
+</div>
+
+</section>
+
+
+<!-- PROFILE -->
+
+<section id="profile" class="page">
+
+<h1>👤 My Profile</h1>
+
+<div class="card" style="margin-top:20px">
+
+<div style="
+width:90px;height:90px;border-radius:50%;
+background:linear-gradient(135deg,#6957e8,#9b5de5);
+display:flex;align-items:center;justify-content:center;
+font-size:35px;color:white" id="avatar">
+S
+</div>
+
+<h2 id="profileName">Student</h2>
+
+<p class="muted" id="profileContact"></p>
+
+<hr>
+
+<div class="grid">
+
+<div class="card">
+<b id="pXP">0</b><br>
+<small>XP</small>
+</div>
+
+<div class="card">
+<b id="pTests">0</b><br>
+<small>Tests</small>
+</div>
+
+<div class="card">
+<b id="pLevel">Beginner</b><br>
+<small>Level</small>
+</div>
+
+</div>
+
+<button class="primary"
+ style="margin-top:20px"
+ onclick="logout()">
+🚪 Logout
+</button>
+
+</div>
+
+</section>
+
+
+</main>
+</div>
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+/* =========================
+   MCQ DATABASE
+========================= */
+
+const DB={
+
+Maths:{
+"සංඛ්‍යා":[
+["2 + 5 × 2 = ?",["14","12","10","9"],1,"ගුණ කිරීම පළමුව සිදු කරයි. 5×2=10. 2+10=12."],
+["√49 = ?",["6","7","8","9"],1,"7×7=49."],
+["2³ = ?",["6","8","9","12"],1,"2×2×2=8."]
+],
+"වීජ ගණිතය":[
+["2x+4=12 නම් x?",["2","4","6","8"],1,"2x=8 නිසා x=4."],
+["x²=25 නම් x?",["5","-5","±5","25"],2,"x=5 හෝ -5."]
+],
+"ත්‍රිකෝණමිතිය":[
+["sin 30° = ?",["0","1/2","1","2"],1,"sin 30° = 1/2."],
+["tan 45° = ?",["0","1/2","1","2"],2,"tan 45° = 1."]
+]
+},
+
+Biology:{
+"සෛලය":[
+["Cell powerhouse ලෙස හඳුන්වන්නේ?",["Nucleus","Mitochondria","Ribosome","Golgi"],1,"Mitochondria තුළ ATP නිපදවයි."],
+["Protein synthesis සිදුවන්නේ?",["Ribosome","Lysosome","Vacuole","Nucleus"],0,"Ribosome මත protein synthesis සිදුවේ."]
+],
+"ප්‍රභාසංස්ලේෂණය":[
+["Photosynthesis ප්‍රධාන වශයෙන් සිදුවන්නේ?",["Mitochondria","Chloroplast","Ribosome","Nucleus"],1,"Photosynthesis සඳහා chloroplast වැදගත් වේ."],
+["Photosynthesis සඳහා අවශ්‍ය වායුව?",["O₂","CO₂","N₂","H₂"],1,"ශාක CO₂ භාවිතා කරයි."]
+],
+"මානව ජීව විද්‍යාව":[
+["Oxygen transport සඳහා වැදගත් වන්නේ?",["Plasma","Hemoglobin","Platelets","Neurons"],1,"Hemoglobin oxygen සමඟ බැඳී එය ප්‍රවාහනය කරයි."]
+]
+},
+
+Physics:{
+"චලිතය":[
+["Speed හි SI unit එක?",["m","m/s","N","J"],1,"Speed සඳහා m/s භාවිතා කරයි."],
+["Acceleration හි SI unit එක?",["m/s","m/s²","N","J"],1,"Acceleration = m/s²."],
+["Velocity = ?",["Distance/Time","Time/Distance","Force/Time","Distance×Time"],0,"v=d/t."]
+],
+"බලය":[
+["Force හි SI unit එක?",["Joule","Newton","Watt","Volt"],1,"Force හි SI unit එක Newton."],
+["Newton 2nd law?",["F=ma","V=IR","P=VI","Q=It"],0,"F=ma."]
+],
+"විදුලිය":[
+["Ohm's law?",["V=IR","F=ma","P=VI","E=mc²"],0,"Ohm's law V=IR."]
+]
+},
+
+Chemistry:{
+"පරමාණුක ව්‍යුහය":[
+["Atomic number = ?",["Neutrons","Protons","Mass","Electrons+Neutrons"],1,"Atomic number = proton ගණන."],
+["Electron charge එක?",["ධන","ඍණ","ශුන්‍ය","වෙනස්"],1,"Electron negative charge එකක් දරයි."],
+["Carbon atomic number?",["4","6","8","12"],1,"Carbon atomic number = 6."]
+],
+"මෝල සංකල්පය":[
+["Avogadro constant ආසන්න වශයෙන්?",["6.02×10²³","6.02×10⁶","6.02×10¹²","6.02×10²"],0,"Avogadro constant ≈6.022×10²³."]
+],
+"අම්ල හා භාෂ්ම":[
+["pH 7 ද්‍රාවණයක්?",["ආම්ලික","භාෂ්මික","උදාසීන","අතිශය ආම්ලික"],2,"සාමාන්‍යයෙන් pH 7 neutral වේ."],
+["NaOH යනු?",["අම්ලයක්","භාෂ්මයක්","වායුවක්","ලෝහයක්"],1,"NaOH base එකකි."]
+]
+}
+
+};
+
+
+/* =========================
+   STATE
+========================= */
+
+let subject="Maths";
+let topic="සියලුම පාඩම්";
+let questions=[];
+let qi=0;
+let correct=0;
+let wrong=0;
+let timer=30;
+let timerID;
+let answered=false;
+let year=2027;
+let otp="";
+
+
+/* =========================
+   LOGIN
+========================= */
+
+function requestLogin(){
+
+ let c=document.getElementById("contact").value.trim();
+
+ if(!c){
+  toast("Email/Phone එක ඇතුළත් කරන්න.");
+  return;
+ }
+
+ otp=String(
+  Math.floor(100000+Math.random()*900000)
+ );
+
+ document.getElementById("otpDisplay").innerText=otp;
+
+ document.getElementById("loginForm")
+ .classList.add("hidden");
+
+ document.getElementById("otpForm")
+ .classList.remove("hidden");
+
+ toast("Demo OTP generated.");
+
+}
+
+function verifyLogin(){
+
+ if(document.getElementById("otp").value!==otp){
+  toast("OTP එක වැරදියි.");
+  return;
+ }
+
+ let c=document.getElementById("contact").value;
+
+ localStorage.setItem("eduLogged","1");
+ localStorage.setItem("eduContact",c);
+
+ let n=c.includes("@")
+  ?c.split("@")[0]
+  :"Student";
+
+ localStorage.setItem("eduName",n);
+
+ enter();
+
+}
+
+function enter(){
+
+ document.getElementById("loginPage").style.display="none";
+ document.getElementById("app").style.display="block";
+
+ updateUI();
+ buildSelectors();
+ loadPapers();
+ motivation();
+
+}
+
+function logout(){
+
+ localStorage.removeItem("eduLogged");
+ location.reload();
+
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function showPage(id,btn){
+
+ document.querySelectorAll(".page")
+ .forEach(p=>p.classList.remove("active"));
+
+ document.getElementById(id)
+ .classList.add("active");
+
+ document.querySelectorAll(".nav")
+ .forEach(n=>n.classList.remove("active"));
+
+ if(btn)btn.classList.add("active");
+
+}
+
+function chooseSubject(s){
+
+ subject=s;
+ topic="සියලුම පාඩම්";
+
+ showPage("mcq");
+
+ buildSelectors();
+
+}
+
+
+/* =========================
+   SELECTORS
+========================= */
+
+function buildSelectors(){
+
+ let sbox=document.getElementById("subjectsSelect");
+ let tbox=document.getElementById("topicsSelect");
+
+ sbox.innerHTML="";
+ tbox.innerHTML="";
+
+ Object.keys(DB).forEach(s=>{
+
+  let b=document.createElement("button");
+
+  b.className="primary";
+  b.style.width="auto";
+  b.style.margin="4px";
+
+  b.innerText=s;
+
+  b.onclick=()=>{
+   subject=s;
+   topic="සියලුම පාඩම්";
+   buildSelectors();
+  };
+
+  if(s===subject)
+   b.style.outline="3px solid #c7c1ff";
+
+  sbox.appendChild(b);
+
+ });
+
+ let all=document.createElement("button");
+
+ all.className="primary";
+ all.style.width="auto";
+ all.style.margin="4px";
+ all.innerText="සියලුම පාඩම්";
+
+ all.onclick=()=>{
+  topic="සියලුම පාඩම්";
+  buildSelectors();
+ };
+
+ tbox.appendChild(all);
+
+ Object.keys(DB[subject]).forEach(t=>{
+
+  let b=document.createElement("button");
+
+  b.className="primary";
+  b.style.width="auto";
+  b.style.margin="4px";
+
+  b.innerText=t;
+
+  b.onclick=()=>{
+   topic=t;
+   buildSelectors();
+  };
+
+  tbox.appendChild(b);
+
+ });
+
+}
+
+
+/* =========================
+   QUIZ
+========================= */
+
+function startQuiz(){
+
+ questions=[];
+
+ if(topic==="සියලුම පාඩම්"){
+
+  Object.keys(DB[subject]).forEach(t=>{
+   DB[subject][t].forEach(q=>{
+    questions.push(q);
+   });
+  });
+
+ }else{
+
+  questions=[...DB[subject][topic]];
+
+ }
+
+ questions.sort(()=>Math.random()-.5);
+
+ questions=questions.slice(0,10);
+
+ qi=0;
+ correct=0;
+ wrong=0;
+
+ document.getElementById("quizSetup")
+ .classList.add("hidden");
+
+ document.getElementById("quiz")
+ .classList.remove("hidden");
+
+ document.getElementById("result")
+ .classList.add("hidden");
+
+ showQuestion();
+
+}
+
+function showQuestion(){
+
+ clearInterval(timerID);
+
+ answered=false;
+ timer=30;
+
+ let 
