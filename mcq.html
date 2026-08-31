@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EduNova MCQ 🧠</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,"Noto Sans Sinhala",sans-serif;
+}
+
+:root{
+    --bg:#f5f7ff;
+    --card:#ffffff;
+    --text:#172033;
+    --muted:#747c90;
+    --primary:#6958e8;
+    --primary2:#8b5cf6;
+    --border:#e6e9f2;
+    --soft:#eef0ff;
+    --green:#10b981;
+    --red:#ef4444;
+    --orange:#f59e0b;
+}
+
+body.dark{
+    --bg:#0d1120;
+    --card:#171c2d;
+    --text:#f4f5ff;
+    --muted:#9ca5ba;
+    --border:#292f42;
+    --soft:#202641;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    transition:.3s;
+}
+
+/* HEADER */
+
+header{
+    height:72px;
+    background:var(--card);
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 5%;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.logo{
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+}
+
+.header-right{
+    display:flex;
+    gap:9px;
+}
+
+.icon-btn{
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    border:1px solid var(--border);
+    background:var(--bg);
+    color:var(--text);
+    cursor:pointer;
+    font-size:18px;
+}
+
+/* MAIN */
+
+main{
+    width:92%;
+    max-width:850px;
+    margin:30px auto 60px;
+}
+
+/* TOP */
+
+.top{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.top h1{
+    font-size:29px;
+    margin-bottom:7px;
+}
+
+.top p{
+    color:var(--muted);
+    font-size:14px;
+}
+
+/* SELECT */
+
+.select-area{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:20px;
+    box-shadow:0 15px 40px rgba(40,45,80,.08);
+    margin-bottom:20px;
+}
+
+.select-area h3{
+    margin-bottom:14px;
+}
+
+.subject-buttons{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+}
+
+.subject-btn{
+    padding:13px 5px;
+    border-radius:13px;
+    border:1px solid var(--border);
+    background:var(--bg);
+    color:var(--text);
+    cursor:pointer;
+    font-weight:bold;
+    transition:.2s;
+}
+
+.subject-btn:hover,
+.subject-btn.selected{
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
+    color:white;
+    border-color:transparent;
+}
+
+/* DIFFICULTY */
+
+.difficulty{
+    display:flex;
+    gap:9px;
+    margin-top:15px;
+}
+
+.diff-btn{
+    flex:1;
+    border:1px solid var(--border);
+    background:var(--bg);
+    color:var(--text);
+    padding:10px;
+    border-radius:11px;
+    cursor:pointer;
+}
+
+.diff-btn.selected{
+    background:var(--soft);
+    color:var(--primary);
+    border-color:var(--primary);
+    font-weight:bold;
+}
+
+/* START */
+
+.start-btn{
+    width:100%;
+    margin-top:18px;
+    padding:15px;
+    border:0;
+    border-radius:15px;
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* QUIZ */
+
+.quiz{
+    display:none;
+}
+
+.quiz-top{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:17px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.question-count{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.timer{
+    background:var(--soft);
+    color:var(--primary);
+    padding:9px 13px;
+    border-radius:11px;
+    font-weight:bold;
+}
+
+.question-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:23px;
+    padding:25px;
+    box-shadow:0 15px 45px rgba(40,45,80,.08);
+}
+
+.badge{
+    display:inline-block;
+    background:var(--soft);
+    color:var(--primary);
+    padding:7px 11px;
+    border-radius:9px;
+    font-size:12px;
+    margin-bottom:15px;
+}
+
+.question{
+    font-size:20px;
+    line-height:1.7;
+    margin-bottom:20px;
+}
+
+.options{
+    display:grid;
+    gap:11px;
+}
+
+.option{
+    width:100%;
+    text-align:left;
+    padding:15px;
+    border-radius:14px;
+    border:2px solid var(--border);
+    background:var(--bg);
+    color:var(--text);
+    cursor:pointer;
+    transition:.2s;
+    font-size:15px;
+}
+
+.option:hover{
+    border-color:var(--primary);
+}
+
+.option.correct{
+    border-color:var(--green);
+    background:rgba(16,185,129,.10);
+}
+
+.option.wrong{
+    border-color:var(--red);
+    background:rgba(239,68,68,.10);
+}
+
+.option.disabled{
+    cursor:not-allowed;
+}
+
+/* EXPLANATION */
+
+.explanation{
+    display:none;
+    margin-top:18px;
+    padding:15px;
+    border-radius:14px;
+    background:var(--soft);
+    line-height:1.7;
+    font-size:14px;
+}
+
+.next-btn{
+    width:100%;
+    margin-top:15px;
+    padding:14px;
+    border:0;
+    border-radius:14px;
+    background:var(--primary);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* RESULT */
+
+.result{
+    display:none;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:25px;
+    padding:30px;
+    text-align:center;
+    box-shadow:0 15px 45px rgba(40,45,80,.10);
+}
+
+.result-icon{
+    font-size:65px;
+    margin-bottom:10px;
+}
+
+.result h2{
+    font-size:26px;
+    margin-bottom:8px;
+}
+
+.result p{
+    color:var(--muted);
+    line-height:1.6;
+}
+
+.result-score{
+    font-size:43px;
+    font-weight:bold;
+    color:var(--primary);
+    margin:20px 0;
+}
+
+.result-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin:20px 0;
+}
+
+.result-box{
+    background:var(--bg);
+    border-radius:15px;
+    padding:15px 5px;
+}
+
+.result-box strong{
+    display:block;
+    font-size:21px;
+}
+
+.result-box span{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.retry{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:14px;
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* MOBILE */
+
+@media(max-width:650px){
+
+    main{
+        width:94%;
+    }
+
+    .subject-buttons{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .question-card{
+        padding:19px;
+    }
+
+    .question{
+        font-size:17px;
+    }
+
+    .result-grid{
+        grid-template-columns:1fr 1fr 1fr;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="brand">
+        <div class="logo">🧠</div>
+        <span>EduNova MCQ</span>
+    </div>
+
+    <div class="header-right">
+
+        <button
+            class="icon-btn"
+            onclick="toggleDark()"
+            id="themeBtn">
+            🌙
+        </button>
+
+        <button
+            class="icon-btn"
+            onclick="goHome()">
+            🏠
+        </button>
+
+    </div>
+
+</header>
+
+
+<main>
+
+<!-- ================= START SCREEN ================= -->
+
+<div id="startScreen">
+
+    <div class="top">
+
+        <h1>🧠 MCQ Challenge</h1>
+
+        <p>
+            ඔයාගේ දැනුම test කරලා
+            XP සහ Level ලබාගන්න! 🚀
+        </p>
+
+    </div>
+
+
+    <div class="select-area">
+
+        <h3>📚 Subject එක තෝරන්න</h3>
+
+        <div class="subject-buttons">
+
+            <button
+                class="subject-btn selected"
+                onclick="selectSubject('Mathematics',this)">
+                🔢 Maths
+            </button>
+
+            <button
+                class="subject-btn"
+                onclick="selectSubject('Biology',this)">
+                🧬 Biology
+            </button>
+
+            <button
+                class="subject-btn"
+                onclick="selectSubject('Physics',this)">
+                ⚡ Physics
+            </button>
+
+            <button
+                class="subject-btn"
+                onclick="selectSubject('Chemistry',this)">
+                🧪 Chemistry
+            </button>
+
+        </div>
+
+
+        <h3 style="margin-top:20px;">
+            🎯 Difficulty එක
+        </h3>
+
+        <div class="difficulty">
+
+            <button
+                class="diff-btn selected"
+                onclick="selectDifficulty('Easy',this)">
+                🟢 Easy
+            </button>
+
+            <button
+                class="diff-btn"
+                onclick="selectDifficulty('Medium',this)">
+                🟡 Medium
+            </button>
+
+            <button
+                class="diff-btn"
+                onclick="selectDifficulty('Hard',this)">
+                🔴 Hard
+            </button>
+
+        </div>
+
+
+        <button
+            class="start-btn"
+            onclick="startQuiz()">
+            🚀 MCQ Test එක පටන් ගන්න
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= QUIZ ================= -->
+
+<div id="quizScreen" class="quiz">
+
+    <div class="quiz-top">
+
+        <div>
+            <strong id="quizSubject">
+                Mathematics
+            </strong>
+
+            <div class="question-count">
+                ප්‍රශ්නය
+                <span id="currentNumber">1</span>
+                /
+                <span id="totalNumber">10</span>
+            </div>
+        </div>
+
+        <div class="timer">
+            ⏱️ <span id="timer">30</span>s
+        </div>
+
+    </div>
+
+
+    <div class="question-card">
+
+        <div class="badge" id="difficultyBadge">
+            🟢 Easy
+        </div>
+
+        <div
+            class="question"
+            id="question">
+        </div>
+
+        <div
+            class="options"
+            id="options">
+        </div>
+
+        <div
+            class="explanation"
+            id="explanation">
+        </div>
+
+        <button
+            class="next-btn"
+            id="nextBtn"
+            style="display:none"
+            onclick="nextQuestion()">
+            ඊළඟ ප්‍රශ්නය →
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= RESULT ================= -->
+
+<div id="resultScreen" class="result">
+
+    <div class="result-icon" id="resultIcon">
+        🏆
+    </div>
+
+    <h2 id="resultTitle">
+        Excellent!
+    </h2>
+
+    <p id="resultMessage">
+        ඔයා හොඳට කරලා තියෙනවා!
+    </p>
+
+    <div class="result-score">
+        <span id="finalScore">0</span>%
+    </div>
+
+
+    <div class="result-grid">
+
+        <div class="result-box">
+            <strong id="correctAnswers">0</strong>
+            <span>නිවැරදි</span>
+        </div>
+
+        <div class="result-box">
+            <strong id="wrongAnswers">0</strong>
+            <span>වැරදි</span>
+        </div>
+
+        <div class="result-box">
+            <strong id="earnedXP">0</strong>
+            <span>ලැබුණු XP</span>
+        </div>
+
+    </div>
+
+
+    <div
+        style="
+        background:var(--soft);
+        padding:17px;
+        border-radius:15px;
+        margin-bottom:18px;
+        ">
+
+        🧠 ඔයාගේ Level
+
+        <strong
+            id="finalLevel"
+            style="
+            display:block;
+            font-size:22px;
+            color:var(--primary);
+            margin-top:5px;
+            ">
+            Beginner 🌱
+        </strong>
+
+    </div>
+
+
+    <button
+        class="retry"
+        onclick="restartQuiz()">
+        🔄 නැවත Test කරන්න
+    </button>
+
+</div>
+
+</main>
+
+
+<script>
+
+/* ==========================================
+   EDUNOVA MCQ DATABASE
+========================================== */
+
+const questionBank = {
+
+Mathematics: [
+
+{
+q:"2x + 6 = 14 නම් x හි අගය කීයද?",
+a:["2","3","4","5"],
+correct:2,
+ex:"2x + 6 = 14 → 2x = 8 → x = 4."
+},
+
+{
+q:"y = 3x + 2 යන සරල රේඛාවේ gradient එක කීයද?",
+a:["2","3","5","6"],
+correct:1,
+ex:"y = mx + c ආකාරයේදී m යනු gradient එකයි. මෙහි m = 3."
+},
+
+{
+q:"sin 30° හි අගය කීයද?",
+a:["0","1/2","√2/2","1"],
+correct:1,
+ex:"sin 30° = 1/2."
+},
+
+{
+q:"5² + 12² හි අගය කීයද?",
+a:["169","144","125","100"],
+correct:0,
+ex:"5² = 25 සහ 12² = 144. එබැවින් 25 + 144 = 169."
+},
+
+{
+q:"x² = 49 නම් x හි අගයන් මොනවාද?",
+a:["7 පමණි","-7 පමණි","±7","49"],
+correct:2,
+ex:"x² = 49 නිසා x = 7 හෝ x = -7. එනම් ±7."
+},
+
+{
+q:"log₁₀ 100 හි අගය කීයද?",
+a:["1","2","10","100"],
+correct:1,
+ex:"10² = 100 නිසා log₁₀ 100 = 2."
+},
+
+{
+q:"cos 60° හි අගය කීයද?",
+a:["0","1","1/2","√3/2"],
+correct:2,
+ex:"cos 60° = 1/2."
+},
+
+{
+q:"3, 5, 7, 9, 11 යන සංඛ්‍යා පෙළේ මීළඟ සංඛ්‍යාව කීයද?",
+a:["12","13","14","15"],
+correct:1,
+ex:"සෑම වාරයකම 2 බැගින් එකතු වේ. එබැවින් 11 + 2 = 13."
+},
+
+{
+q:"වෘත්තයක අරය 7 cm නම් විෂ්කම්භය කීයද?",
+a:["7 cm","14 cm","21 cm","49 cm"],
+correct:1,
+ex:"විෂ්කම්භය = 2 × අරය = 14 cm."
+},
+
+{
+q:"0! හි අගය කීයද?",
+a:["0","1","2","නිර්වචනය කළ නොහැක"],
+correct:1,
+ex:"ගණිතයේ 0! = 1 ලෙස අර්ථ දක්වා ඇත."
+}
+
+],
+
+
+Biology:[
+
+{
+q:"ජීවී සෛලයේ 'powerhouse' ලෙස හඳුන්වන්නේ කුමක්ද?",
+a:["රයිබොසෝම","මයිටොකොන්ඩ්‍රියා","න්‍යෂ්ටිය","ගොල්ජි උපකරණය"],
+correct:1,
+ex:"මයිටොකොන්ඩ්‍රියා තුළ සෛලීය ශ්වසනයේදී ATP නිපදවීම සිදුවේ."
+},
+
+{
+q:"DNA හි සම්පූර්ණ නාමය කුමක්ද?",
+a:[
+"Deoxyribonucleic Acid",
+"Ribonucleic Acid",
+"Deoxyribose Acid",
+"Double Nucleic Acid"
+],
+correct:0,
+ex:"DNA යනු Deoxyribonucleic Acid යන්නයි."
+},
+
+{
+q:"ප්‍රභාසංස්ලේෂණය ප්‍රධාන වශයෙන් සිදුවන්නේ කුමන ඉන්ද්‍රියකද?",
+a:["මයිටොකොන්ඩ්‍රියා","ක්ලෝරෝප්ලාස්ට්","රයිබොසෝම","න්‍යෂ්ටිය"],
+correct:1,
+ex:"ශාක සෛලවල ප්‍රභාසංස්ලේෂණය ක්ලෝරෝප්ලාස්ට් තුළ සිදුවේ."
+},
+
+{
+q:"ප්‍රෝටීන සංස්ලේෂණයට සෘජුව සම්බන්ධ ඉන්ද්‍රිය කුමක්ද?",
+a:["රයිබොසෝම","ලයිසොසෝම","වැකුයෝලය","සෙන්ට්‍රියෝලය"],
+correct:0,
+ex:"රයිබොසෝම මත ප්‍රෝටීන සංස්ලේෂණය සිදුවේ."
+},
+
+{
+q:"Mitosis අවසානයේ සාමාන්‍යයෙන් දියණි සෛල කීයක් නිපදවේද?",
+a:["1","2","3","4"],
+correct:1,
+ex:"Mitosis මඟින් මව් සෛලයට ජානමය වශයෙන් සමාන දියණි සෛල 2ක් නිපදවේ."
+},
+
+{
+q:"රුධිරයේ ඔක්සිජන් ප්‍රවාහනය කිරීමට ප්‍රධාන වශයෙන් සම්බන්ධ වන්නේ කුමක්ද?",
+a:["ප්ලාස්මා","හිමොග්ලොබින්","පට්ටිකා","සුදු රුධිර සෛල"],
+correct:1,
+ex:"හිමොග්ලොබින් ඔක්සිජන් සමඟ බැඳී එය ප්‍රවාහනය කිරීමට උපකාරී වේ."
+},
+
+{
+q:"එන්සයිම යනු ප්‍රධාන වශයෙන් කුමන වර්ගයේ ජෛව අණුද?",
+a:["කාබෝහයිඩ්‍රේට්","ප්‍රෝටීන","ලිපිඩ","නියුක්ලෙයික් අම්ල"],
+correct:1,
+ex:"බොහෝ එන්සයිම ප්‍රෝටීන ස්වභාවයක් ගනී."
+},
+
+{
+q:"ශාක සෛල බිත්තියේ ප්‍රධාන සංඝටකයක් වන්නේ කුමක්ද?",
+a:["ග්ලයිකොජන්","සෙලියුලෝස්","කයිටින්","ග්ලූකෝස් පමණි"],
+correct:1,
+ex:"ශාක සෛල බිත්තියේ ප්‍රධාන සංඝටකය සෙලියුලෝස් වේ."
+},
+
+{
+q:"RNA හි සාමාන්‍යයෙන් දක්නට ලැබෙන සීනි වර්ගය කුමක්ද?",
+a:["Deoxyribose","Ribose","Glucose","Fructose"],
+correct:1,
+ex:"RNA හි සීනි සංඝටකය Ribose වේ."
+},
+
+{
+q:"ජානමය තොරතුරු ගබඩා කරන ප්‍රධාන අණුව කුමක්ද?",
+a:["ATP","DNA","Glucose","Lipid"],
+correct:1,
+ex:"බොහෝ ජීවීන්ගේ ජානමය තොරතුරු DNA තුළ ගබඩා වේ."
+}
+
+],
+
+
+Physics:[
+
+{
+q:"වේගයේ SI ඒකකය කුමක්ද?",
+a:["m","m/s","N","J"],
+correct:1,
+ex:"වේගයේ SI ඒකකය metres per second (m/s) වේ."
+},
+
+{
+q:"බලයේ SI ඒකකය කුමක්ද?",
+a:["Joule","Watt","Newton","Pascal"],
+correct:2,
+ex:"බලයේ SI ඒකකය Newton (N) වේ."
+},
+
+{
+q:"F = ma යන සමීකරණය සම්බන්ධ වන්නේ කුමන නියමයටද?",
+a:[
+"Newton පළමු නියමය",
+"Newton දෙවන නියමය",
+"Newton තුන්වන නියමය",
+"Hooke නියමය"
+],
+correct:1,
+ex:"Newton දෙවන නියමය අනුව F = ma."
+},
+
+{
+q:"ශක්තියේ SI ඒකකය කුමක්ද?",
+a:["Newton","Joule","Watt","Volt"],
+correct:1,
+ex:"ශක්තියේ SI ඒකකය Joule (J) වේ."
+},
+
+{
+q:"ආලෝකය vacuum තුළ ගමන් කරන වේගය ආසන්න වශයෙන් කීයද?",
+a:[
+"3 × 10⁶ m/s",
+"3 × 10⁷ m/s",
+"3 × 10⁸ m/s",
+"3 × 10⁹ m/s"
+],
+correct:2,
+ex:"Vacuum තුළ ආලෝකයේ වේගය ආසන්න වශයෙන් 3 × 10⁸ m/s වේ."
+},
+
+{
+q:"විදුලි ධාරාවේ SI ඒකකය කුමක්ද?",
+a:["Volt","Ohm","Ampere","Watt"],
+correct:2,
+ex:"විදුලි ධාරාවේ SI ඒකකය Ampere (A) වේ."
+},
+
+{
+q:"Ohm නියමය කුමක්ද?",
+a:["V = IR","P = VI","F = ma","E = mc²"],
+correct:0,
+ex:"Ohm නියමය අනුව V = IR."
+},
+
+{
+q:"ගුරුත්ව ත්වරණය පෘථිවිය මත ආසන්න වශයෙන් කීයද?",
+a:[
+"1.8 m/s²",
+"9.8 m/s²",
+"18 m/s²",
+"98 m/s²"
+],
+correct:1,
+ex:"පෘථිවිය මත g ≈ 9.8 m/s² ලෙස ගත හැක."
+},
+
+{
+q:"Power හි SI ඒකකය කුමක්ද?",
+a:["Joule","Newton","Watt","Volt"],
+correct:2,
+ex:"Power හි SI ඒකකය Watt (W) වේ."
+},
+
+{
+q:"වස්තුවක momentum සඳහා නිවැරදි සම්බන්ධතාව කුමක්ද?",
+a:["p = mv","p = ma","p = F/t","p = m/v"],
+correct:0,
+ex:"Momentum p = mv වේ."
+}
+
+],
+
+
+Chemistry:[
+
+{
+q:"ජලයේ රසායනික සූත්‍රය කුමක්ද?",
+a:["CO₂","H₂O","O₂","NaCl"],
+correct:1,
+ex:"ජල අණුවේ Hydrogen පරමාණු 2ක් සහ Oxygen පරමාණුවක් ඇත: H₂O."
+},
+
+{
+q:"පරමාණු අංකය නිරූපණය කරන්නේ කුමක්ද?",
+a:[
+"Neutron ගණන",
+"Proton ගණන",
+"Electron + Neutron",
+"Mass number"
+],
+correct:1,
+ex:"Atomic number = න්‍යෂ්ටියේ ඇති proton ගණන."
+},
+
+{
+q:"NaCl යනු කුමන සංයෝගයද?",
+a:[
+"Sodium chloride",
+"Sodium carbonate",
+"Calcium chloride",
+"Potassium chloride"
+],
+correct:0,
+ex:"NaCl යනු Sodium chloride වේ."
+},
+
+{
+q:"pH = 7 ද්‍රාවණයක් සාමාන්‍යයෙන් කෙසේද?",
+a:["ආම්ලික","භාෂ්මික","උදාසීන","ඉතා ආම්ලික"],
+correct:2,
+ex:"25°C ආසන්නයේ pH 7 ද්‍රාවණයක් neutral ලෙස සැලකේ."
+},
+
+{
+q:"O₂ අණුවේ oxygen පරමාණු කීයක් තිබේද?",
+a:["1","2","3","4"],
+correct:1,
+ex:"O₂ හි oxygen පරමාණු 2ක් ඇත."
+},
+
+{
+q:"HCl ජලයේ දියවූ විට සාමාන්‍යයෙන් කුමන ස්වභාවයක් පෙන්වයිද?",
+a:["ආම්ලික","භාෂ්මික","උදාසීන","ලවණීය පමණි"],
+correct:0,
+ex:"HCl ජලයේදී H⁺ අයන ලබාදෙන නිසා ආම්ලික ද්‍රාවණයක් සාදයි."
+},
+
+{
+q:"මෝලයක Avogadro නියතයේ ආසන්න අගය කුමක්ද?",
+a:[
+"6.02 × 10²³",
+"6.02 × 10²",
+"6.02 × 10⁶",
+"6.02 × 10¹²"
+],
+correct:0,
+ex:"Avogadro නියතය ≈ 6.022 × 10²³ mol⁻¹."
+},
+
+{
+q:"ඉලෙක්ට්‍රෝනයේ ආරෝපණය කුමක්ද?",
+a:["ධන","ඍණ","ශුන්‍ය","වෙනස් වන"],
+correct:1,
+ex:"Electron එකට negative charge එකක් ඇත."
+},
+
+{
+q:"කාබන්හි පරමාණු අංකය කීයද?",
+a:["4","6","8","12"],
+correct:1,
+ex:"Carbon හි atomic number = 6."
+},
+
+{
+q:"CO₂ හි carbon පරමාණු කීයක් තිබේද?",
+a:["1","2","3","4"],
+correct:0,
+ex:"CO₂ සූත්‍රයෙන් carbon පරමාණුව 1ක් සහ oxygen පරමාණු 2ක් ඇති බව පෙන්වයි."
+}
+
+]
+
+};
+
+
+/* ==========================================
+   VARIABLES
+========================================== */
+
+let selectedSubject = "Mathematics";
+let selectedDifficulty = "Easy";
+
+let quizQuestions = [];
+
+let currentQuestion = 0;
+
+let score = 0;
+
+let correctCount = 0;
+
+let wrongCount = 0;
+
+let timerValue = 30;
+
+let timerInterval;
+
+let answered = false;
+
+
+/* ==========================================
+   SUBJECT
+========================================== */
+
+function selectSubject(subject,button){
+
+    selectedSubject = subject;
+
+    document
+        .querySelectorAll(".subject-btn")
+        .forEach(function(btn){
+            btn.classList.remove("selected");
+        });
+
+    button.classList.add("selected");
+
+}
+
+
+/* ==========================================
+   DIFFICULTY
+========================================== */
+
+function selectDifficulty(level,button){
+
+    selectedDifficulty = level;
+
+    document
+        .querySelectorAll(".diff-btn")
+        .forEach(function(btn){
+            btn.classList.remove("selected");
+        });
+
+    button.classList.add("selected");
+
+}
+
+
+/* ==========================================
+   START QUIZ
+========================================== */
+
+function startQuiz(){
+
+    quizQuestions =
+        [...questionBank[selectedSubject]];
+
+    /*
+      Current question database has 10 questions
+      per subject.
+    */
+
+    currentQuestion = 0;
+
+    score = 0;
+
+    correctCount = 0;
+
+    wrongCount = 0;
+
+    document
+        .getElementById("startScreen")
+        .style.display = "none";
+
+    document
+        .getElementById("resultScreen")
+        .style.display = "none";
+
+    document
+        .getElementById("quizScreen")
+        .style.display = "block";
+
+    document
+        .getElementById("quizSubject")
+        .innerText =
+        selectedSubject;
+
+    document
+        .getElementById("totalNumber")
+        .innerText =
+        quizQuestions.length;
+
+    showQuestion();
+
+}
+
+
+/* ==========================================
+   SHOW QUESTION
+========================================== */
+
+function showQuestion(){
+
+    answered = false;
+
+    clearInterval(timerInterval);
+
+    timerValue = 30;
+
+    document
+        .getElementById("timer")
+        .innerText =
+        timerValue;
+
+    const data =
+        quizQuestions[currentQuestion];
+
+    document
+        .getElementById("currentNumber")
+        .innerText =
+        currentQuestion + 1;
+
+    document
+        .getElementById("question")
+        .innerText =
+        data.q;
+
+    document
+        .getElementById("difficultyBadge")
+        .innerText =
+        selectedDifficulty === "Easy"
+        ? "🟢 Easy"
+        : selectedDifficulty === "Medium"
+        ? "🟡 Medium"
+        : "🔴 Hard";
+
+
+    const options =
+   
